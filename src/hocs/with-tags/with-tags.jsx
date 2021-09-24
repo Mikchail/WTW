@@ -1,11 +1,11 @@
 import React, {PureComponent} from 'react';
 import {getRandomElement} from '../../utils';
 import {connect} from 'react-redux';
-import {getFilms, getIsLoading, getTags} from '../../store/data/data-selector';
+import {getIsLoading, getTags} from '../../store/reducers/films/films-selectors';
 
-import {getFilmsByGenre, getActiveTag} from '../../store/show-films/show-films-selector';
+import {getFilmsByGenre, getActiveTag} from '../../store/reducers/shown-films/shown-films-selector';
+import { chooseFilm, chooseGenre } from '../../store/actions/shown-film-actions';
 
-import {ActionCreator} from '../../store/show-films/show-films-reducer';
 const withTags = (Component) => {
   class WithTags extends PureComponent {
     constructor(_props) {
@@ -45,10 +45,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handlerSorted(activeTag) {
-    dispatch(ActionCreator.chooseGenre(activeTag));
+    dispatch(chooseGenre(activeTag));
   },
   handleSelectedFilms(film) {
-    dispatch(ActionCreator.chooseFilm(film));
+    dispatch(chooseFilm(film));
   },
 });
 export {withTags};

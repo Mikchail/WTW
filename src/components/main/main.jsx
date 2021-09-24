@@ -6,8 +6,8 @@ import {connect} from 'react-redux';
 import Loading from '../loading/loading';
 import Header from '../header/header';
 import Content from '../content/content';
-import {Operations as DataOperation} from '../../store/data/data-reducer';
-import {getFilmPromo, getLoadingFilmPromo} from '../../store/data/data-selector';
+import {Operations as DataOperation} from '../../store/reducers/data/data-reducer';
+import {getFilmPromo, getLoadingFilmPromo} from '../../store/reducers/data/data-selector';
 import withCountFilms from '../../hocs/with-count-films/with-count-films';
 
 const ContentWithCount = withCountFilms(Content);

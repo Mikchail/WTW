@@ -1,12 +1,12 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Operations as DataOperations} from '../../store/data/data-reducer';
-import {ActionCreator} from '../../store/show-films/show-films-reducer';
-import {getSelectedFilms, hasSelectedFilms, getFavoriteFilms} from '../../store/show-films/show-films-selector';
-import {getAuthStatus} from '../../store/user/user-selector';
-import {AuthorizationStatus} from '../../store/user/user-reducer';
+import {getSelectedFilms, hasSelectedFilms, getFavoriteFilms} from '../../store/reducers/shown-films/shown-films-selector';
+import {getAuthStatus} from '../../store/reducers/user/user-selector';
+import {AuthorizationStatus} from '../../store/reducers/user/user-reducer';
 import history from '../../history';
+import {triggerSendFavoriteFilms} from '../../store/actions/favorite-films-actions';
+import {deleteFilm, selectedFilm} from '../../store/actions/shown-film-actions';
 
 class MyListButton extends PureComponent {
   constructor(props) {
@@ -28,16 +28,15 @@ class MyListButton extends PureComponent {
     const {film, auth} = this.props;
     const isAuth = auth.status === AuthorizationStatus.AUTH;
     const isFavorite = film.isFavorite;
-    const mainInList =
-      isFavorite ? (
-        <svg viewBox="0 0 18 14" width="18" height="14">
-          <use xlinkHref="#in-list"></use>
-        </svg>
-      ) : (
-        <svg viewBox="0 0 19 20" width="19" height="20">
-          <use xlinkHref="#add"></use>
-        </svg>
-      );
+    const mainInList = isFavorite ? (
+      <svg viewBox="0 0 18 14" width="18" height="14">
+        <use xlinkHref="#in-list"></use>
+      </svg>
+    ) : (
+      <svg viewBox="0 0 19 20" width="19" height="20">
+        <use xlinkHref="#add"></use>
+      </svg>
+    );
 
     return (
       <button className="btn btn--list movie-card__button" type="button" onClick={this._handleMyListClick}>
@@ -56,13 +55,13 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispaptch) => ({
   onChangeFavoriteFilm(id, status) {
-    dispaptch(DataOperations.changeFavorite(id, status));
+    dispaptch(triggerSendFavoriteFilms(id, status));
   },
   addFilm: (film) => {
-    dispaptch(ActionCreator.selectedFilm(film));
+    dispaptch(selectedFilm(film));
   },
   removeFilm: (film) => {
-    dispaptch(ActionCreator.deleteFilm(film));
+    dispaptch(deleteFilm(film));
   },
 });
 

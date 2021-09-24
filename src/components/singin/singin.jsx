@@ -2,8 +2,8 @@ import React, {PureComponent} from 'react';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import {connect} from 'react-redux';
-import {getUser, getAuthStatus} from '../../store/user/user-selector';
-import {ActionCreator, Operations} from '../../store/user/user-reducer';
+import {getUser, getAuthStatus} from '../../store/reducers/user/user-selector';
+import { triggerLogin } from '../../store/actions/user-actions';
 
 class SignIn extends PureComponent {
   constructor(props) {
@@ -93,10 +93,10 @@ class SignIn extends PureComponent {
 }
 const mapDispatchToProps = (dispatch) => ({
   signIn: (user) => {
-    dispatch(Operations.login(user));
+    dispatch(triggerLogin(user));
   },
-
 });
+
 const mapStateToProps = (state) => ({
   user: getUser(state),
   auth: getAuthStatus(state),

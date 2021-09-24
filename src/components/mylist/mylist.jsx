@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {getFavoriteFilms, statusFavariteFilms} from '../../store/data/data-selector';
-import {Operations as DataOperations} from '../../store/data/data-reducer';
+import {getFavoriteFilms, statusFavariteFilms} from '../../store/reducers/data/data-selector';
+import {Operations as DataOperations} from '../../store/reducers/data/data-reducer';
 import CatalogList from '../catalog-list/catalog-list';
 import {connect} from 'react-redux';
 

@@ -1,7 +1,7 @@
 import React, {PureComponent, useEffect, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {Operations as DataOperations} from '../../../store/data/data-reducer';
-import {getCommetsStatus, getFilmComments} from '../../../store/data/data-selector';
+import {Operations as DataOperations} from '../../../store/reducers/data/data-reducer';
+import {getCommetsStatus, getFilmComments} from '../../../store/reducers/data/data-selector';
 import {connect} from 'react-redux';
 
 const getDateTime = (time) => {
