@@ -1,10 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {getUser} from '../../store/reducers/user/user-selector';
+import { RootState } from '../../store/reducers/root-reducer';
+import { IUser } from '../../models/models';
 
-const Header = (props) => {
+type Props = {
+  className?: string; 
+  Breadcrumbs?: any;
+  id?: number;
+  user: IUser | null;
+}
+
+const Header: FC<Props> = (props) => {
   const {className, Breadcrumbs, id} = props;
   return (
     <header className={`page-header movie-card__head ${className || ``}`}>
@@ -34,17 +42,7 @@ const Header = (props) => {
   );
 };
 
-Header.propTypes = {
-  className: PropTypes.string,
-  Breadcrumbs: PropTypes.func,
-  id: PropTypes.number,
-  user: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.bool
-  ]),
-};
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   user: getUser(state),
 });
 

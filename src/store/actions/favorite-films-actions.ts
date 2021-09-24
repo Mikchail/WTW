@@ -41,7 +41,7 @@ export const setLoadingFavoriteFilm = (payload: boolean) => ({
   type: SET_LOADING_FAVORITE_FILM,
   payload,
 });
-export const loadedFavoriteFilms = (payload: IFilm) => ({
+export const loadedFavoriteFilms = (payload: IFilm[]) => ({
   type: LOAD_FAVORITE_FILMS,
   payload,
 });

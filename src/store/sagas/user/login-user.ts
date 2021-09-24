@@ -9,7 +9,6 @@ import {
   setUserData,
   triggerLogin,
   TRIGGER_LOGIN_USER,
-  TypeUserActions,
 } from '../../actions/user-actions';
 import {AuthorizationStatus} from '../../reducers/user/user-reducer';
 

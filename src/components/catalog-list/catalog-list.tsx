@@ -10,14 +10,11 @@ import { AppDispatch } from '../..';
 const SmallMovieCardWrapped = withSmallPlayer(SmallMovieCard);
 
 type Props = {
-  history: typeof history,
   films: IFilm[],
-  handlerFilmMouseMove: () => void,
-  handleSelectedFilms: (film: IFilm) => void,
 };
 
 const CatalogList: FC<Props> = (props) => {
-  const {films, handleSelectedFilms} = props;
+  const {films} = props;
   return (
     <div className="catalog__movies-list">
       {films &&
@@ -27,7 +24,6 @@ const CatalogList: FC<Props> = (props) => {
               history={history}
               key={film.title}
               film={film}
-              handleSelectedFilms={handleSelectedFilms}
             />
           );
         })}

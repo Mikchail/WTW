@@ -1,10 +1,24 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
+import { IFilm } from '../../models/models';
 import {getFilmById} from '../../store/reducers/films/films-selectors';
+import { RootState } from '../../store/reducers/root-reducer';
 
-const withPlayerControl = (Component) => {
-  class WithPlayerControl extends PureComponent {
-    constructor(props) {
+type Props = {
+  selectedFilm: IFilm;
+}
+
+type State = {
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
+}
+
+const withPlayerControl = <BaseProps extends Props>(Component: React.ComponentType<BaseProps>) => {
+  class WithPlayerControl extends PureComponent<BaseProps & Props,State>  {
+    private videoRef: React.RefObject<HTMLVideoElement>;
+
+    constructor(props: BaseProps & Props ) {
       super(props);
 
       this.state = {
@@ -81,7 +95,6 @@ const withPlayerControl = (Component) => {
         .toString()
         .padStart(2, `0`)}`;
     }
-    // const playerToggler = (currentTime * 100) / duration + `%`;
 
     render() {
       return (
@@ -105,8 +118,8 @@ const withPlayerControl = (Component) => {
 
   return WithPlayerControl;
 };
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state: RootState, props: {selectedID: number}) => ({
   selectedFilm: getFilmById(state, props),
 });
 export {withPlayerControl};
-export default (Component) => connect(mapStateToProps)(withPlayerControl(Component));
+export default (Component: React.ComponentType<any>) => connect(mapStateToProps)(withPlayerControl(Component));

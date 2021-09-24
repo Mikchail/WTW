@@ -1,6 +1,8 @@
+import { AxiosResponse } from 'axios';
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {API} from '../../..';
 import {adaptiveFilms} from '../../../adapter';
+import { IFilm } from '../../../models/models';
 import {
   setLoadingFavoriteFilm,
   TRIGGER_LOAD_FAVORITE_FILMS,
@@ -12,7 +14,7 @@ import {EntryPoints} from '../../consts';
 function* fetchFavoriteFilms() {
   try {
     yield put(setLoadingFavoriteFilm(true));
-    const favoritesFilms = yield call(API.get, EntryPoints.FAVORITE);
+    const favoritesFilms: AxiosResponse<IFilm[]> = yield call(API.get, EntryPoints.FAVORITE);
     yield put(loadedFavoriteFilms(favoritesFilms.data.map((film) => adaptiveFilms(film))));
     yield put(setLoadingFavoriteFilm(false));
     yield put(setLoadingErrorFavoriteFilms(false));

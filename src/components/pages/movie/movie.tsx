@@ -17,18 +17,17 @@ import CatalogList from '../../catalog-list/catalog-list';
 import { IFilm } from '../../../models/models';
 import { RootState } from '../../../store/reducers/root-reducer';
 import { AppDispatch } from '../../..';
-import history from '../../../history';
 
 type Props = {
   film: IFilm,
-  history: typeof history,
+  history: any,
   selectedID: number,
   isSelect: boolean,
-  similarFilms: IFilm,
+  similarFilms: IFilm[],
 };
 
 const MoviePage: FC<Props> = (props) => {
-  const {film, history, selectedID, isSelect, similarFilms} = props;
+  const {film, history, selectedID, similarFilms} = props;
 
   return (
     <>
@@ -94,7 +93,7 @@ const MoviePage: FC<Props> = (props) => {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <CatalogList history={history} films={similarFilms} />
+          <CatalogList films={similarFilms} />
         </section>
 
         <Footer />

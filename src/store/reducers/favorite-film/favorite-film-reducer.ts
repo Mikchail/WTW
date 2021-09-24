@@ -1,3 +1,4 @@
+import { IFilm } from '../../../models/models';
 import {extend} from '../../../utils';
 import {
   SET_LOADING_FAVORITE_FILM,
@@ -8,7 +9,7 @@ import {
 
 const initialState = {
   isLoadingFavoriteFilms: true,
-  favoriteFilms: [],
+  favoriteFilms: [] as IFilm[],
   isFavoriteFilmsError: false,
 };
 

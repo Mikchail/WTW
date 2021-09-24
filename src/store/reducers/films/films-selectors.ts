@@ -1,6 +1,7 @@
 import NameSpace from '../../name-space';
 import {createSelector} from 'reselect';
 import { RootState } from '../root-reducer';
+import { IFilm } from '../../../models/models';
 
 export const getIsLoading = (state: RootState) => {
   return state[NameSpace.FILMS].isLoading;
@@ -14,9 +15,9 @@ export const getFilmById = (state: RootState, props: {selectedID: number}) => {
 export const getSimilarFilms = (state: RootState, id: number) => {
   const filmById = getFilmById(state, {selectedID: id});
   const films = getFilms(state).filter((film) => {
-    return Boolean(film.genre === filmById.genre && film.id !== id);
+    return Boolean(film?.genre === filmById?.genre && film.id !== id);
   });
-  return films;
+  return films as IFilm[];
 };
 
 export const getFilms = (state: RootState) => {

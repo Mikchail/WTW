@@ -1,13 +1,15 @@
-import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
+import {call, put, takeLatest} from 'redux-saga/effects';
 import { API } from '../../..';
 import { adaptiveFilms } from '../../../adapter';
 import { EntryPoints } from '../../consts';
 import { TRIGGER_LOAD_FILMS, setLoadingFilm, loadedFilms, setErrorLoadFilm } from '../../actions/films-actions';
+import { AxiosResponse } from 'axios';
+import { IFilm } from '../../../models/models';
 
 function* fetchFilms() {
   try {
     yield put(setLoadingFilm(true));
-    const films = yield call(API.get, EntryPoints.FILMS);
+    const films: AxiosResponse<IFilm[]> = yield call(API.get, EntryPoints.FILMS);
     yield put(loadedFilms(films.data.map((film) => adaptiveFilms(film))));
     yield put(setLoadingFilm(false));
     yield put(setErrorLoadFilm(false));
@@ -18,5 +20,5 @@ function* fetchFilms() {
 }
 
 export function* filmSaga() {
-  yield takeEvery(TRIGGER_LOAD_FILMS, fetchFilms);
+  yield takeLatest(TRIGGER_LOAD_FILMS, fetchFilms);
 }

@@ -22,7 +22,7 @@ export const loadedFilms = (films: IFilm[]) => ({
   payload: films,
 });
 
-export const setErrorLoadFilm = (payload: IFilm) => ({
+export const setErrorLoadFilm = (payload: boolean) => ({
   type: SET_ERROR_LOADED_FILMS,
   payload,
 });

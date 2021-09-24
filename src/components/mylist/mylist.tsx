@@ -3,13 +3,15 @@ import {getFavoriteFilms, statusFavariteFilms} from '../../store/reducers/favori
 import CatalogList from '../catalog-list/catalog-list';
 import {connect} from 'react-redux';
 import { triggerLoadFavoriteFilms } from '../../store/actions/favorite-films-actions';
+import { IFilm } from '../../models/models';
+import { RootState } from '../../store/reducers/root-reducer';
 
 type Props = {
   loadFavoritefilms: () => void,
   statusFavariteFilms: {
     isLoadingFavoriteFilms: boolean;
   },
-  favoriteFilms: boolean,
+  favoriteFilms: IFilm[],
 };
 
 const Mylist: FC<Props> = (props) => {
@@ -25,12 +27,12 @@ const Mylist: FC<Props> = (props) => {
   return (
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
-      {favoriteFilms && <CatalogList films={favoriteFilms} />}
+      {favoriteFilms.length && <CatalogList films={favoriteFilms} />}
     </section>
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   favoriteFilms: getFavoriteFilms(state),
   statusFavariteFilms: statusFavariteFilms(state),
 });

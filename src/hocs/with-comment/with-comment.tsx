@@ -42,15 +42,15 @@ const withComment = <BaseProps extends Props>(Component: React.ComponentType<Bas
       this._handleSubmitReview = this._handleSubmitReview.bind(this);
     }
 
-    _handleChangeRating(event) {
+    _handleChangeRating(event: React.ChangeEvent<HTMLInputElement>) {
       event.preventDefault();
-      const rating = event.target.value;
+      const rating = +event.target.value;
       this.setState({
         rating,
       });
     }
 
-    _handleChangeComment(event) {
+    _handleChangeComment(event: React.ChangeEvent<HTMLInputElement>) {
       event.preventDefault();
       const comment = event.target.value;
       this.setState({
@@ -58,7 +58,7 @@ const withComment = <BaseProps extends Props>(Component: React.ComponentType<Bas
       });
     }
 
-    _handleSubmitReview(event) {
+    _handleSubmitReview(event: React.ChangeEvent<HTMLButtonElement>) {
       const {selectedFilm, handleSubmitReview} = this.props;
       const {comment, rating} = this.state;
       event.preventDefault();
@@ -109,5 +109,5 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({
 });
 
 export {withComment};
-export default (Component) => connect(mapStateToProps, mapDispatchToProps)(withComment(Component));
+export default (Component: React.ComponentType<any>) => connect(mapStateToProps, mapDispatchToProps)(withComment(Component));
 

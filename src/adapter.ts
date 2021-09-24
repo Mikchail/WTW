@@ -1,5 +1,5 @@
-import {extend} from './utils.ts';
-export const adaptiveFilms = (film) => {
+import {extend} from './utils';
+export const adaptiveFilms = (film: any) => {
   return extend(film, {
     title: film.name,
     srcMovie: film.preview_video_link,

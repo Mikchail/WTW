@@ -1,10 +1,16 @@
 import React, {PureComponent} from 'react';
+type Props = {
 
-const withSmallPlayer = (Component) => {
-  class WithSmallPlayer extends PureComponent {
-    constructor(props) {
+}
+
+type State = {
+  isPlaying: boolean;
+}
+
+const withSmallPlayer = <BaseProps extends Props>(Component: React.ComponentType<BaseProps>) => {
+  class WithSmallPlayer extends PureComponent<BaseProps & Props,State> {
+    constructor(props: BaseProps & Props) {
       super(props);
-
       this.state = {
         isPlaying: false,
       };
@@ -13,7 +19,7 @@ const withSmallPlayer = (Component) => {
       this._handleIsPlayingChange = this._handleIsPlayingChange.bind(this);
     }
 
-    _handleIsPlayingChange(isPlaying) {
+    _handleIsPlayingChange(isPlaying: boolean) {
       this.setState({
         isPlaying,
       });

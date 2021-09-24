@@ -1,12 +1,21 @@
-import React from 'react';
-import {Route, Redirect} from 'react-router-dom';
+import React, { FC } from 'react';
+import {Route, Redirect, RouteComponentProps} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {AuthorizationStatus} from '../../store/reducers/user/user-reducer';
 import {getAuthStatus} from '../../store/reducers/user/user-selector';
 import Loading from '../loading/loading';
 
-const PrivateRouter = (props) => {
+type Props = {
+    auth: {
+      status: string,
+      error: boolean,
+      isProgress: boolean,
+    },
+    render: (routerProps: RouteComponentProps) => React.ReactNode;
+}
+
+const PrivateRouter: FC<Props> = (props) => {
   const {auth, render} = props;
 
   const isAuth = auth.status === AuthorizationStatus.AUTH;
@@ -15,7 +24,7 @@ const PrivateRouter = (props) => {
   return (
     <Route
       {...props}
-      render={(routerProps) => {
+      render={(routerProps: RouteComponentProps) => {
         if (isAuth && !isProgress) {
           return render(routerProps);
         }
@@ -33,14 +42,6 @@ const mapStateToProps = (state) => ({
   auth: getAuthStatus(state),
 });
 
-PrivateRouter.propTypes = {
-  auth: PropTypes.shape({
-    status: PropTypes.string,
-    error: PropTypes.bool,
-    isProgress: PropTypes.bool,
-  }),
-  render: PropTypes.func,
-};
 
 export {PrivateRouter};
 export default connect(mapStateToProps)(PrivateRouter);
