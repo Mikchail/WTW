@@ -1,17 +1,13 @@
 import React, {PureComponent, useEffect, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {Operations as DataOperations} from '../../../store/reducers/data/data-reducer';
-import {getCommetsStatus, getFilmComments} from '../../../store/reducers/data/data-selector';
+import {getCommetsStatus, getFilmComments} from '../../../store/reducers/comments/comment-selectors';
 import {connect} from 'react-redux';
+import { triggerLoadingComments } from '../../../store/actions/comments-actions';
 
 const getDateTime = (time) => {
   const date = new Date(time);
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 };
-// const getDateTimeString = (time) => {
-//   const date = new Date(time);
-//   return `${FullMonth[date.getMonth()]} ${date.getUTCDate()}, ${date.getFullYear()}`;
-// };
 
 class MovieReview extends PureComponent {
   constructor(props) {
@@ -37,17 +33,6 @@ class MovieReview extends PureComponent {
       filmOnePart = comments.slice(0, halfReview);
       filmTwoPart = comments.slice(halfReview);
     }
-    /*
-  const isLoadingComments = () => {
-    if (loadingComments.commentsIsLoading && !loadingComments.loadingIsError) {
-      return `reviews is loading...`;
-    } else if (loadingComments.commentsIsLoading && loadingComments.loadingIsError) {
-      return `server error, try later...`;
-    }
-
-    return false;
-  };
-  */
     return (
       <React.Fragment>
         {comments && cheched && (
@@ -106,7 +91,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   loadComments(film) {
-    dispatch(DataOperations.loadComments(film.id));
+    dispatch(triggerLoadingComments(film.id));
   },
 });
 

@@ -24,9 +24,13 @@ export interface IReview {
 }
 
 export interface IUser {
-
+  id: number;
+  email: string;
+  name: string;
+  avatar_url: string;
 }
 
 export interface IComment {
-
+  comment: string;
+  rating: number; 
 }

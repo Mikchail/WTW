@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {deleteFilm, selectedFilm} from '../../../store/actions/shown-film-actions';
@@ -16,10 +15,13 @@ import Footer from '../../footer/footer';
 import MyListButton from '../../my-list-button/my-list-button';
 import CatalogList from '../../catalog-list/catalog-list';
 import { IFilm } from '../../../models/models';
+import { RootState } from '../../../store/reducers/root-reducer';
+import { AppDispatch } from '../../..';
+import history from '../../../history';
 
 type Props = {
   film: IFilm,
-  history: any,
+  history: typeof history,
   selectedID: number,
   isSelect: boolean,
   similarFilms: IFilm,
@@ -101,7 +103,7 @@ const MoviePage: FC<Props> = (props) => {
   );
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state: RootState, props: {selectedID: number}) => ({
   user: getUser(state),
   selectedFilms: getSelectedFilms(state),
   isSelect: hasSelectedFilms(state),
@@ -109,11 +111,11 @@ const mapStateToProps = (state, props) => ({
   similarFilms: getSimilarFilms(state, props.selectedID),
 });
 
-const mapDispatchToProps = (dispaptch) => ({
-  addFilm: (film) => {
+const mapDispatchToProps = (dispaptch: AppDispatch) => ({
+  addFilm: (film: IFilm) => {
     dispaptch(selectedFilm(film));
   },
-  removeFilm: (film) => {
+  removeFilm: (film: IFilm) => {
     dispaptch(deleteFilm(film));
   },
 });

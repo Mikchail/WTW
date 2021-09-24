@@ -1,5 +1,5 @@
 import {extend} from '../../../utils';
-import {SET_LOADING_PROMO_FILM, LOADED_PROMO_FILMS, SET_ERROR_LOAD_PROMO_FILMS} from '../../actions/promo-film-actions';
+import {SET_LOADING_PROMO_FILM, LOADED_PROMO_FILMS, SET_ERROR_LOAD_PROMO_FILMS, TypePromoFilmActions} from '../../actions/promo-film-actions';
 
 const initialState = {
   isLoadingPromo: true,
@@ -7,7 +7,9 @@ const initialState = {
   isErrorPromo: false,
 };
 
-export const reducer = (state = initialState, action) => {
+type InitialState = typeof initialState;
+
+export const reducer = (state: InitialState = initialState, action: TypePromoFilmActions): InitialState => {
   switch (action.type) {
     case SET_LOADING_PROMO_FILM:
       return extend(state, {

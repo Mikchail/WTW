@@ -6,6 +6,6 @@ const NameSpace = {
   COMMENTS: `COMMENTS`,
   PROMO_FILM: `PROMO_FILM`,
   FAVORITE_FILM: `FAVORITE_FILM`,
-};
+} as const;
 
 export default NameSpace;

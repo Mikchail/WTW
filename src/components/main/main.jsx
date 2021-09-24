@@ -6,9 +6,9 @@ import {connect} from 'react-redux';
 import Loading from '../loading/loading';
 import Header from '../header/header';
 import Content from '../content/content';
-import {Operations as DataOperation} from '../../store/reducers/data/data-reducer';
-import {getFilmPromo, getLoadingFilmPromo} from '../../store/reducers/data/data-selector';
+import {getFilmPromo, getLoadingFilmPromo} from '../../store/reducers/promo-film/promo-film-selectors';
 import withCountFilms from '../../hocs/with-count-films/with-count-films';
+import {triggerLoadPromoFilm} from '../../store/actions/promo-film-actions';
 
 const ContentWithCount = withCountFilms(Content);
 
@@ -25,7 +25,7 @@ const Main = (props) => {
     loadFilmPromo,
     isLoadingFilmPromo,
   } = props;
-  
+
   useEffect(() => {
     loadFilmPromo();
   }, []);
@@ -37,8 +37,8 @@ const Main = (props) => {
       </div>
     );
   }
-  const {src, id, title, genre, year, background_image,poster_image} = filmPromo;
-  
+  const {src, id, title, genre, year, background_image, poster_image} = filmPromo;
+
   // const years = year.getFullYear();
   const isInMyLyst = !id ? (
     <React.Fragment>
@@ -129,7 +129,7 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   loadFilmPromo: () => {
-    dispatch(DataOperation.loadFilmPromo());
+    dispatch(triggerLoadPromoFilm());
   },
 });
 

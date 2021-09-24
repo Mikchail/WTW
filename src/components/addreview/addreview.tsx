@@ -1,13 +1,33 @@
-import React from 'react';
+import React, { FC } from 'react';
 import Header from '../header/header';
-import {connect} from 'react-redux';
 import {sendCommentStatus} from '../../store/reducers/comments/comment-selectors';
+import { RootState } from '../../store/reducers/root-reducer';
+import { IFilm } from '../../models/models';
+import {connect} from 'react-redux';
+
 const ReviewLength = {
   MIN: 50,
   MAX: 400,
 };
 
-const AddReview = (props) => {
+type Props  = {
+  selectedID: number;
+  selectedFilm: IFilm;
+  Breadcrumbs: any;
+  comment: string;
+  history: any;
+  rating: number;
+  onChangeComment: (e: any) => void;
+  onChangeReview: (e: any) => void;
+  onSubmitReview: (e: any) => void;
+  sendingComment: {
+    sendingIsDone: boolean;
+    commentIsSinding: boolean;
+    sendingIsError: boolean;
+  },
+}
+
+const AddReview: FC<Props> = (props) => {
   const {
     selectedID,
     selectedFilm,
@@ -53,7 +73,7 @@ const AddReview = (props) => {
       </div>
 
       <div className="add-review">
-        <form action="#" disabled={isBlocked} className="add-review__form" onSubmit={onSubmitReview}>
+        <form action="#" className="add-review__form" onSubmit={onSubmitReview}>
           <div className="rating">
             <div key={rating} className="rating__stars">
               {ratingArray.map((item) => {
@@ -90,7 +110,7 @@ const AddReview = (props) => {
               placeholder="Review text"
             ></textarea>
             <div className="add-review__submit">
-              <button disabled={isValidReview} className="add-review__btn" type="submit">
+              <button disabled={isValidReview || isBlocked} className="add-review__btn" type="submit">
                 Post
               </button>
             </div>
@@ -103,7 +123,7 @@ const AddReview = (props) => {
 };
 
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   sendingComment: sendCommentStatus(state),
 });
 

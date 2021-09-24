@@ -7,7 +7,7 @@ import {reducer as comments} from './comments/comments-reducer';
 import {reducer as favoriteFilms} from './favorite-film/favorite-film-reducer';
 import {reducer as promoFilms} from './promo-film/promo-film-reducer';
 
-export default combineReducers({
+const rootReducer = combineReducers({
   [NameSpace.SHOWN_FILM]: shownFilms,
   [NameSpace.FILMS]: films,
   [NameSpace.USER]: user,
@@ -15,3 +15,8 @@ export default combineReducers({
   [NameSpace.FAVORITE_FILM]: favoriteFilms,
   [NameSpace.COMMENTS]: comments,
 });
+
+
+export type RootState = ReturnType<typeof rootReducer>
+
+export default rootReducer;

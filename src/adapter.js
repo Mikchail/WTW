@@ -1,4 +1,4 @@
-import {extend} from './utils';
+import {extend} from './utils.ts';
 export const adaptiveFilms = (film) => {
   return extend(film, {
     title: film.name,

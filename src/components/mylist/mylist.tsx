@@ -1,14 +1,24 @@
-import React, {useEffect} from 'react';
-import {getFavoriteFilms, statusFavariteFilms} from '../../store/reducers/data/data-selector';
-import {Operations as DataOperations} from '../../store/reducers/data/data-reducer';
+import React, {useEffect, FC} from 'react';
+import {getFavoriteFilms, statusFavariteFilms} from '../../store/reducers/favorite-film/favorite-film-selectors';
 import CatalogList from '../catalog-list/catalog-list';
 import {connect} from 'react-redux';
+import { triggerLoadFavoriteFilms } from '../../store/actions/favorite-films-actions';
 
-const Mylist = (props) => {
+type Props = {
+  loadFavoritefilms: () => void,
+  statusFavariteFilms: {
+    isLoadingFavoriteFilms: boolean;
+  },
+  favoriteFilms: boolean,
+};
+
+const Mylist: FC<Props> = (props) => {
   const {loadFavoritefilms, statusFavariteFilms, favoriteFilms} = props;
+
   useEffect(() => {
     loadFavoritefilms();
   }, []);
+
   if (statusFavariteFilms.isLoadingFavoriteFilms) {
     return <div>Loading</div>;
   }
@@ -27,7 +37,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   loadFavoritefilms: () => {
-    dispatch(DataOperations.loadFavoriteFilms());
+    dispatch(triggerLoadFavoriteFilms());
   },
 });
 

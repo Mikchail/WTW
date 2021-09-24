@@ -1,12 +1,14 @@
 import NameSpace from '../../name-space';
 import {createSelector} from 'reselect';
 import { getFilms } from '../films/films-selectors';
+import { RootState } from '../root-reducer';
+import { IFilm } from '../../../models/models';
 
-export const getActiveTag = (state) => {
+export const getActiveTag = (state: RootState) => {
   return state[NameSpace.SHOWN_FILM].currentGenre;
 };
 
-export const getFilmsByGenre = (state) => {
+export const getFilmsByGenre = (state: RootState) => {
   const films = getFilms(state);
   console.log( state);
   
@@ -24,15 +26,15 @@ export const getFilmsByGenre = (state) => {
 
   return filmsByGenre(state);
 };
-export const getSelectedFilms = (state) => {
-  return state[NameSpace.SHOW].favoriteFilms;
+export const getSelectedFilms = (state: RootState) => {
+  return state[NameSpace.SHOWN_FILM].favoriteFilms;
 };
 
-export const hasSelectedFilms = (state) => {
-  const favoriteFilms = state[NameSpace.SHOW].favoriteFilms;
-  const select = state[NameSpace.SHOW].selectedFilm;
-  return favoriteFilms.some((film) => film.id === select.id);
+export const hasSelectedFilms = (state: RootState) => {
+  const favoriteFilms = state[NameSpace.SHOWN_FILM].favoriteFilms;
+  const select = state[NameSpace.SHOWN_FILM].selectedFilm;
+  return favoriteFilms.some((film: IFilm) => film.id === select.id);
 };
-export const getFavoriteFilms = (state) => {
-  return state[NameSpace.SHOW].favoriteFilms;
+export const getFavoriteFilms = (state: RootState) => {
+  return state[NameSpace.SHOWN_FILM].favoriteFilms;
 };

@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {getRandomElement} from '../../utils';
+import {getRandomElement} from '../../utils.ts';
 import {connect} from 'react-redux';
 import {getIsLoading, getTags} from '../../store/reducers/films/films-selectors';
 

@@ -4,13 +4,20 @@ import {getFilmById, getIsLoading} from '../../store/reducers/films/films-select
 import Loading from '../../components/loading/loading';
 import { triggerSendComment } from '../../store/actions/comments-actions';
 import { triggerLoadFilms } from '../../store/actions/films-actions';
-import { IFilm } from '../../models/models';
+import { IComment, IFilm } from '../../models/models';
+import { RootState } from '../../store/reducers/root-reducer';
+import { AppDispatch } from '../..';
 
 type Props = {
     selectedFilm: IFilm;
     iSLoading: boolean;
-    handleSubmitReview: (id: number, { comment, rating}: { comment: string , rating: number}) => void,
-    loadFilms: () => void,
+    handleSubmitReview: (id: number, { comment, rating }: IComment) => void;
+    loadFilms: () => void;
+    sendingComment: {
+      sendingIsDone: boolean;
+      commentIsSinding: boolean;
+      sendingIsError: boolean;
+    }
 }
 
 type State = {
@@ -19,11 +26,11 @@ type State = {
 }
 
 
-const withComment = (Component) => {
-  class WithComment extends PureComponent<Props,State> {
+const withComment = <BaseProps extends Props>(Component: React.ComponentType<BaseProps>) => {
+  return class WithComment extends PureComponent<BaseProps & Props,State> {
     private ratingArray: number[];
 
-    constructor(props) {
+    constructor(props: BaseProps & Props) {
       super(props);
       this.state = {
         rating: null,
@@ -75,9 +82,9 @@ const withComment = (Component) => {
       return (
         <Component
           {...this.props}
-          comment={comment}
           rating={rating}
           selectedFilm={selectedFilm}
+          comment={comment}
           onChangeComment={this._handleChangeComment}
           onChangeReview={this._handleChangeRating}
           onSubmitReview={this._handleSubmitReview}
@@ -85,17 +92,16 @@ const withComment = (Component) => {
       );
     }
   }
-  return WithComment;
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state: RootState, props: {selectedID: number}) => ({
   selectedFilm: getFilmById(state, props),
   iSLoading: getIsLoading(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handleSubmitReview(review, id) {
-    dispatch(triggerSendComment({review, id}));
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  handleSubmitReview(filmID: number, comment: IComment) {
+    dispatch(triggerSendComment({comment, filmID}));
   },
   loadFilms() {
     dispatch(triggerLoadFilms());
