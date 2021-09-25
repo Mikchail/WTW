@@ -17,9 +17,9 @@ type Props  = {
   comment: string;
   history: any;
   rating: number;
-  onChangeComment: (e: any) => void;
-  onChangeReview: (e: any) => void;
-  onSubmitReview: (e: any) => void;
+  onChangeComment: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChangeReview: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmitReview: (e: React.ChangeEvent<HTMLFormElement>) => void;
   sendingComment: ReturnType<typeof sendCommentStatus>;
 }
 

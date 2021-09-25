@@ -17,6 +17,10 @@ export interface IFilm {
   description: string;
   starring: string[];
   reviews: IReview[];
+  name: string;
+  preview_video_link: string;
+  released: string;
+  is_favorite: string;
 }
 
 export interface IReview {

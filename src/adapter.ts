@@ -1,5 +1,6 @@
+import { IFilm } from './models/models';
 import {extend} from './utils';
-export const adaptiveFilms = (film: any) => {
+export const adaptiveFilms = (film: IFilm) => {
   return extend(film, {
     title: film.name,
     srcMovie: film.preview_video_link,
