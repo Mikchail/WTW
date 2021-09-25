@@ -45,4 +45,5 @@ export type TypeUserActions =
   | ReturnType<typeof errorAuthorization> 
   | ReturnType<typeof setProgressStatus>
   | ReturnType<typeof setUserData>
-  | ReturnType<typeof triggerCheckAuth>;
+  | ReturnType<typeof triggerCheckAuth>
+  | ReturnType<typeof triggerLogin>;

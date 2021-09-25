@@ -1,10 +1,18 @@
 import React, {PureComponent} from 'react';
 const COUNT_OF_FILMS = 4;
 
-const withCountFilms = (Component) => {
-  class WithCountFilms extends PureComponent {
-    constructor(props) {
-      super();
+
+type Props ={
+}
+
+type State = {
+  numberOfmovie: number,
+}
+
+const withCountFilms = <BaseProps extends Props>(Component: React.ComponentType<BaseProps>) => {
+  class WithCountFilms extends PureComponent<BaseProps & Props,State> {
+    constructor(props: BaseProps & Props) {
+      super(props);
       this.state = {
         numberOfmovie: COUNT_OF_FILMS,
       };
@@ -23,7 +31,7 @@ const withCountFilms = (Component) => {
     render() {
       return (
         <Component
-          {...this.props}
+          {...this.props as BaseProps}
           numberOfmovie={this.state.numberOfmovie}
           addMovies={this._handlerCountFilmAdd}
           resetMovies={this._handlerCountFilmReset}

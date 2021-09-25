@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Route, Redirect, RouteComponentProps} from 'react-router-dom';
+import {Route, Redirect, RouteComponentProps, RouteProps} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {AuthorizationStatus} from '../../store/reducers/user/user-reducer';
 import {getAuthStatus} from '../../store/reducers/user/user-selector';
@@ -10,7 +10,7 @@ import {IAuth} from '../../models/models';
 type Props = {
   auth: IAuth,
   render: (routerProps: RouteComponentProps) => React.ReactNode,
-};
+} & RouteProps;
 
 const PrivateRouter: FC<Props> = (props) => {
   const {auth, render} = props;

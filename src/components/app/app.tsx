@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import {connect} from 'react-redux';
-import {Router as BrowserRouter, Switch, Route, Link} from 'react-router-dom';
+import {Router as BrowserRouter, Switch, Route, Link, Redirect,RouteChildrenProps} from 'react-router-dom';
 import Main from '../main/main';
 import Singin from '../singin/singin';
 import Addreview from '../addreview/addreview';
@@ -14,6 +14,7 @@ import withTags from '../../hocs/with-tags/with-tags';
 import Loading from '../loading/loading';
 import {getIsLoading} from '../../store/reducers/films/films-selectors';
 import withComment from '../../hocs/with-comment/with-comment';
+import { RootState } from '../../store/reducers/root-reducer';
 
 const VideoWrappedPlayer = withPlayer(Player);
 const MainWithTags = withTags(Main);
@@ -40,14 +41,17 @@ const App: FC<Props> = (props) => {
         </Route>
         <PrivateRouter
           path="/films/:id/review"
-          render={(routerProps) => {
-            const selectedID = +routerProps.match.params.id;
+          render={(routerProps: RouteChildrenProps<{id?: string}>) => {
+            const selectedID = routerProps?.match?.params?.id;
+            if(!selectedID){
+             return <Redirect to="/" />
+            }
             return !isLoading ? (
               <div style={{background: `black`, height: `100vh`}}>
                 <Loading />
               </div>
             ) : (
-              <AddreviewWrapped selectedID={selectedID} history={history} />
+              <AddreviewWrapped selectedID={+selectedID} history={history} />
             );
           }}
         />
@@ -66,10 +70,10 @@ const App: FC<Props> = (props) => {
           }}
         />
         <PrivateRouter
-          path="/mylist"
           render={() => {
             return <MylistPage />;
           }}
+          path="/mylist"
         />
         <Route
           path="/player/:id"
@@ -102,7 +106,7 @@ const App: FC<Props> = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   isLoading: getIsLoading(state),
 });
 

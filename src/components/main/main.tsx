@@ -33,7 +33,6 @@ const Main: FC<Props> = (props) => {
   const {
     history,
     handlerSorted,
-    handleSelectedFilms,
     tags,
     activeTag,
     films,
@@ -115,7 +114,7 @@ const Main: FC<Props> = (props) => {
         history={history}
         handlerSorted={handlerSorted}
         tags={tags}
-        handleSelectedFilms={handleSelectedFilms}
+        // handleSelectedFilms={handleSelectedFilms}
         activeTag={activeTag}
         films={films}
         isLoading={isLoading}

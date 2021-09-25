@@ -12,7 +12,7 @@ const initialState = {
   filmsByGenre: [],
   sameFilms: [],
   selectedFilm: {} as IFilm,
-  favoriteFilms: [],
+  favoriteFilms: [] as IFilm[],
 };
 
 type InitialState = typeof initialState;

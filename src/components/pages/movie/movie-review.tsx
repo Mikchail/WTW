@@ -29,14 +29,18 @@ class MovieReview extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    this.props.loadComments(this.props.film);
+    if(this.props.film && this.props.loadComments){
+      this.props.loadComments(this.props.film);
+    }
   }
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.comments !== prevProps.comments) {
-      this.props.loadComments(this.props.film);
+      if(this.props.film && this.props.loadComments) {
+        this.props.loadComments(this.props.film);
+      }
     }
-  }
+  } 
 
   render() {
     const {label, comments, activeTab} = this.props;

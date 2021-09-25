@@ -1,6 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-const Player = (props) => {
+import React, {FC, ReactNode} from 'react';
+import {IFilm} from '../../models/models';
+
+type Props = {
+  isPlaying: boolean,
+  currentTime: number,
+  duration: number,
+  children: ReactNode,
+  history: any,
+  selectedFilm: IFilm,
+  onIsPlayingChange: () => void,
+  leftTime: () => number,
+  onSetFullScreen: () => void,
+};
+
+const Player: FC<Props> = (props) => {
   // const playerToggler = (currentTime * 100) / duration + `%`;
 
   const {
@@ -66,16 +79,5 @@ const Player = (props) => {
   );
 };
 
-Player.propTypes = {
-  isPlaying: PropTypes.bool,
-  currentTime: PropTypes.number,
-  duration: PropTypes.number,
-  children: PropTypes.node,
-  onIsPlayingChange: PropTypes.func,
-  leftTime: PropTypes.func,
-  onSetFullScreen: PropTypes.func,
-  history: PropTypes.object,
-  selectedFilm: PropTypes.object,
-};
 
 export default Player;

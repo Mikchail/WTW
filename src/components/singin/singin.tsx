@@ -3,11 +3,25 @@ import Footer from '../footer/footer';
 import Header from '../header/header';
 import {connect} from 'react-redux';
 import {getUser, getAuthStatus} from '../../store/reducers/user/user-selector';
-import { triggerLogin } from '../../store/actions/user-actions';
+import {triggerLogin} from '../../store/actions/user-actions';
+import { IAuth, IUser } from '../../models/models';
+import { AppDispatch } from '../..';
+import { RootState } from '../../store/reducers/root-reducer';
 
-class SignIn extends PureComponent {
-  constructor(props) {
-    super();
+type Props = {
+  signIn?: (email: string, password: string) => void;
+  auth?: IAuth;
+  user?: IUser | null;
+};
+
+type State = {
+  email: string,
+  password: string,
+};
+
+class SignIn extends PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props);
     this.state = {
       email: ``,
       password: ``,
@@ -15,23 +29,21 @@ class SignIn extends PureComponent {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-  handleSubmit(event) {
+  handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
     event.preventDefault();
-    this.props.signIn({
-      email: this.state.email,
-      password: this.state.password,
-    });
+    this.props.signIn?.(this.state.email,this.state.password);
   }
-  handleChange(event) {
+  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
-    const {name, value} = event.target;
+    const name = event.target.name as "password" // TODO
+    const value = event.target.value;
     this.setState({
       [name]: value,
     });
   }
   render() {
     const {auth} = this.props;
-    const isInvalidRequest = auth.error ? (
+    const isInvalidRequest = auth?.error ? (
       <React.Fragment>
         <div className="sign-in__message">
           <p>Please enter a valid email address</p>
@@ -91,13 +103,13 @@ class SignIn extends PureComponent {
     );
   }
 }
-const mapDispatchToProps = (dispatch) => ({
-  signIn: (user) => {
-    dispatch(triggerLogin(user));
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  signIn: (email: string, password: string) => {
+    dispatch(triggerLogin({email, password}));
   },
 });
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   user: getUser(state),
   auth: getAuthStatus(state),
 });

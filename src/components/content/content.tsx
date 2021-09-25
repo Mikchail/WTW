@@ -10,16 +10,25 @@ type Props = {
   films: IFilm[],
   tags: string[],
   activeTag: string,
-  handlerSorted: () => void,
+  handlerSorted: (activeTag: string) => void,
   history: any,
   isLoading: boolean,
-  numberOfmovie: number,
-  addMovies: () => void,
-  resetMovies: () => void,
+  numberOfmovie?: number,
+  addMovies?: () => void,
+  resetMovies?: () => void,
 };
 
 const Content: FC<Props> = (props) => {
-  const {films, tags, activeTag, handlerSorted, isLoading, numberOfmovie, addMovies, resetMovies} = props;
+  const {
+    films,
+    tags,
+    activeTag,
+    handlerSorted,
+    isLoading,
+    numberOfmovie = 4,
+    addMovies = () => {},
+    resetMovies = () => {},
+  } = props;
   const showFilms = films.slice(0, numberOfmovie);
   return (
     <div className="page-content">
@@ -50,7 +59,7 @@ type PropsTagsAndList = {
   handlerSorted: (tag: string) => void,
   resetMovies: () => void,
   activeTag: string,
-}
+};
 
 const TagsAndList: FC<PropsTagsAndList> = ({activeTag, handlerSorted, tags, films, resetMovies}) => (
   <React.Fragment>

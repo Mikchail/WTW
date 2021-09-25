@@ -33,7 +33,7 @@ class SmallMovieCard extends PureComponent<Props, State> {
     return (
       <article
         onMouseEnter={() => {
-          this.timeout = setTimeout(() => {
+          this.timeout = global.setTimeout(() => {
             onIsPlayingChange && onIsPlayingChange(true);
           }, 1000);
         }}
@@ -41,7 +41,7 @@ class SmallMovieCard extends PureComponent<Props, State> {
           if(this.timeout) {
             clearTimeout(this.timeout);
           }
-          onIsPlayingChange(false);
+          onIsPlayingChange && onIsPlayingChange(false);
         }}
         onClick={() => {
           handleSelectedFilms && handleSelectedFilms(film);
