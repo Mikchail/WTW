@@ -10,10 +10,7 @@ export const getActiveTag = (state: RootState) => {
 
 export const getFilmsByGenre = (state: RootState) => {
   const films = getFilms(state);
-  console.log( state);
-  
   const tag = state[NameSpace.SHOWN_FILM].currentGenre;
-
   if (tag === `All genres`) {
     return films;
   }

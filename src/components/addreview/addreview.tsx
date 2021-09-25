@@ -28,7 +28,6 @@ const AddReview: FC<Props> = (props) => {
   const {
     selectedID,
     selectedFilm,
-    Breadcrumbs,
     comment,
     history,
     rating,
@@ -62,7 +61,7 @@ const AddReview: FC<Props> = (props) => {
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <Header Breadcrumbs={Breadcrumbs} id={+selectedID} />
+        <Header id={+selectedID} />
 
         <div className="movie-card__poster movie-card__poster--small">
           <img src={`${selectedFilm.poster_image}`} alt="The Grand Budapest Hotel poster" width="218" height="327" />
@@ -125,4 +124,4 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 
-export default connect(mapStateToProps, {})(AddReview);
+export default connect(mapStateToProps, null)(AddReview);

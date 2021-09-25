@@ -63,7 +63,7 @@ const withComment = <BaseProps extends Props>(Component: React.ComponentType<Bas
       const {comment, rating} = this.state;
       event.preventDefault();
       if(!comment || !rating){
-        throw new Error("need to fill")
+        return;
       }
       handleSubmitReview(selectedFilm.id, {
         rating,
@@ -72,14 +72,15 @@ const withComment = <BaseProps extends Props>(Component: React.ComponentType<Bas
     }
 
     componentDidMount() {
-      const {loadFilms} = this.props;
-      loadFilms();
+      // const {loadFilms} = this.props;
+      // loadFilms();
     }
 
     render() {
       const {comment, rating} = this.state;
       const {selectedFilm, iSLoading} = this.props;
-      if (!iSLoading) {
+      
+      if (iSLoading) {
         return <Loading />;
       }
       return (

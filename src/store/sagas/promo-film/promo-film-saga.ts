@@ -10,7 +10,7 @@ function* fetchPromoFilm() {
   try {
     yield put(setLoadingPromo(true));
     const film: AxiosResponse<IFilm> = yield call(API.get, EntryPoints.PROMO);
-    yield put(loadedPromo(adaptiveFilms(film)));
+    yield put(loadedPromo(adaptiveFilms(film.data)));
     yield put(setLoadingPromo(false));
     yield put(setErrorLoadPromo(false));
   } catch (e) {

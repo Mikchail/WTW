@@ -44,9 +44,10 @@ const App: FC<Props> = (props) => {
           render={(routerProps: RouteChildrenProps<{id?: string}>) => {
             const selectedID = routerProps?.match?.params?.id;
             if(!selectedID){
+              
              return <Redirect to="/" />
             }
-            return !isLoading ? (
+            return isLoading ? (
               <div style={{background: `black`, height: `100vh`}}>
                 <Loading />
               </div>
@@ -58,14 +59,17 @@ const App: FC<Props> = (props) => {
         <Route
           path="/films/:id"
           exact
-          render={(routerProps) => {
-            const selectedID = +routerProps.match.params.id;
-            return !isLoading ? (
+          render={(routerProps: RouteChildrenProps<{id?: string}>) => {
+            const selectedID = routerProps?.match?.params?.id;
+            if(!selectedID){
+              return <Redirect to="/" />
+             }
+            return isLoading ? (
               <div style={{background: `black`, height: `100vh`}}>
                 <Loading />
               </div>
             ) : (
-              <MoviePage selectedID={selectedID} history={history} />
+              <MoviePage selectedID={+selectedID} history={history} />
             );
           }}
         />
@@ -77,14 +81,18 @@ const App: FC<Props> = (props) => {
         />
         <Route
           path="/player/:id"
-          render={(routerProps) => {
-            const selectedID = +routerProps.match.params.id;
-            return !isLoading ? (
+          render={(routerProps: RouteChildrenProps<{id?: string}>) => {
+            const selectedID = routerProps?.match?.params?.id;
+            console.log(selectedID)
+            if(!selectedID){
+              return <Redirect to="/" />
+             }
+            return isLoading ? (
               <div style={{background: 'black', height: '100vh'}}>
                 <Loading />
               </div>
             ) : (
-              <VideoWrappedPlayer history={routerProps.history} selectedID={selectedID} {...props} />
+              <VideoWrappedPlayer history={routerProps.history} selectedID={+selectedID} {...props} />
             );
           }}
         />

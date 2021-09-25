@@ -13,9 +13,10 @@ import {
 import {EntryPoints} from '../../consts';
 
 function* loadComments(action: ReturnType<typeof triggerSendComment>) {
+  
   try {
     yield put(setloadingComments(true));
-    const responce: AxiosResponse<IReview[]> = yield call(API.get, `${EntryPoints.COMMENTS}${action.payload.filmID}`);
+    const responce: AxiosResponse<IReview[]> = yield call(API.get, `${EntryPoints.COMMENTS}${action.payload}`);
     yield put(loadedComments(responce.data));
     yield put(setloadingComments(false));
     yield put(setErrorLoadComment(false));

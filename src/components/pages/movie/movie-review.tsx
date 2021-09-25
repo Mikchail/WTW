@@ -35,7 +35,7 @@ class MovieReview extends PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (this.props.comments !== prevProps.comments) {
+    if (this.props.film?.id !== prevProps.film?.id) {
       if(this.props.film && this.props.loadComments) {
         this.props.loadComments(this.props.film);
       }

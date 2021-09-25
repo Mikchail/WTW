@@ -39,6 +39,7 @@ const Main: FC<Props> = (props) => {
     isLoading,
     filmPromo,
     loadFilmPromo,
+    handleSelectedFilms,
     isLoadingFilmPromo,
   } = props;
 
@@ -69,7 +70,6 @@ const Main: FC<Props> = (props) => {
       </svg>
     </React.Fragment>
   );
-
   return (
     <React.Fragment>
       <section className="movie-card">
@@ -101,7 +101,7 @@ const Main: FC<Props> = (props) => {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <button className="btn btn--list movie-card__button" type="button">
+                <button onClick={() => handleSelectedFilms} className="btn btn--list movie-card__button" type="button">
                   {isInMyLyst}
                   <span>My list</span>
                 </button>

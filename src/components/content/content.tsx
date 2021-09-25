@@ -34,7 +34,7 @@ const Content: FC<Props> = (props) => {
     <div className="page-content">
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        {isLoading ? (
+        {!isLoading ? (
           <TagsAndList
             films={showFilms}
             activeTag={activeTag}
