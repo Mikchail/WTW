@@ -24,7 +24,7 @@ function* sendComment(action: ReturnType<typeof triggerSendComment>) {
     yield put(loadedComments(responce.data));
     yield put(setSendingComment(false));
     yield put(setSendCommentError(false));
-    yield put(setSendCommentDone(false));
+    yield put(setSendCommentDone(true));
   } catch (e) {
     yield put(setSendCommentError(true));
     // yield put({type: 'TODO', message: e.message}); // TODO

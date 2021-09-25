@@ -1,41 +1,23 @@
-import React, { FC } from 'react';
+import React, {FC} from 'react';
 import Header from '../header/header';
-import {sendCommentStatus} from '../../store/reducers/comments/comment-selectors';
-import { RootState } from '../../store/reducers/root-reducer';
-import { IFilm } from '../../models/models';
-import {connect} from 'react-redux';
+import {useComment} from '../../hooks/useComment';
+import history from '../../history';
+import Loading from '../loading/loading';
 
 const ReviewLength = {
   MIN: 50,
   MAX: 400,
 };
 
-type Props  = {
-  selectedID: number;
-  selectedFilm: IFilm;
-  Breadcrumbs: any;
-  comment: string;
-  history: any;
-  rating: number;
-  onChangeComment: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onChangeReview: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmitReview: (e: React.ChangeEvent<HTMLFormElement>) => void;
-  sendingComment: ReturnType<typeof sendCommentStatus>;
-}
+type Props = {
+  selectedID: number,
+};
 
-
-const AddReview: FC<Props> = (props) => {
-  const {
-    selectedID,
-    selectedFilm,
-    comment,
-    history,
-    rating,
-    onChangeComment,
-    onChangeReview,
-    onSubmitReview,
-    sendingComment,
-  } = props;
+const AddReview: FC<Props> = ({selectedID}) => {
+  const {isLoading, selectedFilm, comment, rating, onChangeComment, onChangeReview, onSubmitReview, sendingComment} =
+    useComment({
+      selectedID,
+    });
 
   const ratingArray = [1, 2, 3, 4, 5];
 
@@ -52,6 +34,12 @@ const AddReview: FC<Props> = (props) => {
     return null;
   };
   const isBlocked = sendingComment.commentsIsSending && !sendingComment.sendingIsError ? true : false;
+  if (!selectedFilm) {
+    return null;
+  }
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <section style={{backgroundColor: selectedFilm.background_color}} className="movie-card movie-card--full">
       <div className="movie-card__header">
@@ -118,10 +106,4 @@ const AddReview: FC<Props> = (props) => {
   );
 };
 
-
-const mapStateToProps = (state: RootState) => ({
-  sendingComment: sendCommentStatus(state),
-});
-
-
-export default connect(mapStateToProps, null)(AddReview);
+export default AddReview;

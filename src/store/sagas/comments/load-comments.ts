@@ -6,7 +6,6 @@ import {
   setloadingComments,
   loadedComments,
   setErrorLoadComment,
-  setSendCommentDone,
   TRIGGER_LOADING_COMMENT,
   triggerSendComment,
 } from '../../actions/comments-actions';
@@ -20,7 +19,6 @@ function* loadComments(action: ReturnType<typeof triggerSendComment>) {
     yield put(loadedComments(responce.data));
     yield put(setloadingComments(false));
     yield put(setErrorLoadComment(false));
-    yield put(setSendCommentDone(false));
   } catch (e) {
     yield put(setErrorLoadComment(true));
     // yield put({type: 'TODO', message: e.message}); // TODO

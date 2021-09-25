@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, {FC} from 'react';
 import {connect} from 'react-redux';
-import {Router as BrowserRouter, Switch, Route, Link, Redirect,RouteChildrenProps} from 'react-router-dom';
+import {Router as BrowserRouter, Switch, Route, Link, Redirect, RouteChildrenProps} from 'react-router-dom';
 import Main from '../main/main';
 import Singin from '../singin/singin';
 import Addreview from '../addreview/addreview';
@@ -13,16 +13,14 @@ import withPlayer from '../../hocs/withPlayer/withPlayer';
 import withTags from '../../hocs/with-tags/with-tags';
 import Loading from '../loading/loading';
 import {getIsLoading} from '../../store/reducers/films/films-selectors';
-import withComment from '../../hocs/with-comment/with-comment';
-import { RootState } from '../../store/reducers/root-reducer';
+import {RootState} from '../../store/reducers/root-reducer';
 
 const VideoWrappedPlayer = withPlayer(Player);
 const MainWithTags = withTags(Main);
-const AddreviewWrapped = withComment(Addreview);
 
 type Props = {
-  isLoading: boolean;
-}
+  isLoading: boolean,
+};
 
 const App: FC<Props> = (props) => {
   const {isLoading} = props;
@@ -43,16 +41,15 @@ const App: FC<Props> = (props) => {
           path="/films/:id/review"
           render={(routerProps: RouteChildrenProps<{id?: string}>) => {
             const selectedID = routerProps?.match?.params?.id;
-            if(!selectedID){
-              
-             return <Redirect to="/" />
+            if (!selectedID) {
+              return <Redirect to="/" />;
             }
             return isLoading ? (
               <div style={{background: `black`, height: `100vh`}}>
                 <Loading />
               </div>
             ) : (
-              <AddreviewWrapped selectedID={+selectedID} history={history} />
+              <Addreview selectedID={+selectedID} />
             );
           }}
         />
@@ -61,9 +58,9 @@ const App: FC<Props> = (props) => {
           exact
           render={(routerProps: RouteChildrenProps<{id?: string}>) => {
             const selectedID = routerProps?.match?.params?.id;
-            if(!selectedID){
-              return <Redirect to="/" />
-             }
+            if (!selectedID) {
+              return <Redirect to="/" />;
+            }
             return isLoading ? (
               <div style={{background: `black`, height: `100vh`}}>
                 <Loading />
@@ -83,10 +80,10 @@ const App: FC<Props> = (props) => {
           path="/player/:id"
           render={(routerProps: RouteChildrenProps<{id?: string}>) => {
             const selectedID = routerProps?.match?.params?.id;
-            console.log(selectedID)
-            if(!selectedID){
-              return <Redirect to="/" />
-             }
+            console.log(selectedID);
+            if (!selectedID) {
+              return <Redirect to="/" />;
+            }
             return isLoading ? (
               <div style={{background: 'black', height: '100vh'}}>
                 <Loading />

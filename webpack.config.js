@@ -12,6 +12,7 @@ module.exports = {
     open: true,
     port: 1337,
   },
+
   module: {
     rules: [
       {
@@ -29,6 +30,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'), //короткий путь для импортов
+    },
   },
   devtool: 'source-map',
 };
