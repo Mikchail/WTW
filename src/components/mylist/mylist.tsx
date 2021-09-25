@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import { triggerLoadFavoriteFilms } from '../../store/actions/favorite-films-actions';
 import { IFilm } from '../../models/models';
 import { RootState } from '../../store/reducers/root-reducer';
+import { AppDispatch } from '../..';
 
 type Props = {
   loadFavoritefilms: () => void,
@@ -37,7 +38,7 @@ const mapStateToProps = (state: RootState) => ({
   statusFavariteFilms: statusFavariteFilms(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
   loadFavoritefilms: () => {
     dispatch(triggerLoadFavoriteFilms());
   },

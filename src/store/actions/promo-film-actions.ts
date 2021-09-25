@@ -30,3 +30,4 @@ export type TypePromoFilmActions =
   | ReturnType<typeof setLoadingPromo>
   | ReturnType<typeof loadedPromo> 
   | ReturnType<typeof setErrorLoadPromo>
+  | ReturnType<typeof triggerLoadPromoFilm>

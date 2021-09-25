@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { FC } from 'react';
 import TagItem from '../tag-item/tag-item';
-import PropTypes from 'prop-types';
-const TagList = (props) => {
+
+type Props = {
+  items: string[],
+  handlerSorted: (tag: string) => void,
+  resetMovies: () => void,
+  activeTag: string,
+}
+
+const TagList: FC<Props> = (props) => {
   const {items, handlerSorted, resetMovies, activeTag} = props;
-  const handlerClick = (item) => {
+  const handlerClick = (item: string) => {
     resetMovies();
     handlerSorted(item);
   };
@@ -29,10 +36,4 @@ const TagList = (props) => {
   );
 };
 
-TagList.propTypes = {
-  items: PropTypes.array,
-  handlerSorted: PropTypes.func,
-  resetMovies: PropTypes.func,
-  activeTag: PropTypes.string,
-};
 export default TagList;

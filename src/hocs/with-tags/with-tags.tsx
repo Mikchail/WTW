@@ -1,22 +1,38 @@
 import React, {PureComponent} from 'react';
-import {getRandomElement} from '../../utils.ts';
+import {getRandomElement} from '../../utils';
 import {connect} from 'react-redux';
 import {getIsLoading, getTags} from '../../store/reducers/films/films-selectors';
 
 import {getFilmsByGenre, getActiveTag} from '../../store/reducers/shown-films/shown-films-selector';
 import { chooseFilm, chooseGenre } from '../../store/actions/shown-film-actions';
+import { RootState } from '../../store/reducers/root-reducer';
+import { AppDispatch } from '../..';
+import { IFilm } from '../../models/models';
 
-const withTags = (Component) => {
-  class WithTags extends PureComponent {
-    constructor(_props) {
-      super();
+type Props = {
+  films: IFilm[];
+  handlerSorted: (activeTag: string) => void;
+  handleSelectedFilms: (film: IFilm) => void;
+  tags: string[];
+  tag: string;
+  isLoading: boolean;
+}
+
+type State = {
+  sortedFilms: any,
+  sortedTag: string,
+  activeFilm: any,
+}
+
+const withTags = <BaseProps extends Props>(Component: React.ComponentType<BaseProps>) => {
+  class WithTags extends PureComponent<BaseProps & Props,State> {
+    constructor(props: BaseProps & Props) {
+      super(props);
       this.state = {
         sortedFilms: null,
         sortedTag: `All genres`,
         activeFilm: null,
       };
-      // this.handlerSorted = this.handlerSorted.bind(this);
-      // this.handlerFilmClick = this.handlerFilmClick.bind(this);
     }
 
     render() {
@@ -36,20 +52,20 @@ const withTags = (Component) => {
   }
   return WithTags;
 };
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   films: getFilmsByGenre(state),
   tag: getActiveTag(state),
   tags: getTags(state),
   isLoading: getIsLoading(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handlerSorted(activeTag) {
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  handlerSorted(activeTag: string) {
     dispatch(chooseGenre(activeTag));
   },
-  handleSelectedFilms(film) {
+  handleSelectedFilms(film: IFilm) {
     dispatch(chooseFilm(film));
   },
 });
 export {withTags};
-export default (Component) => connect(mapStateToProps, mapDispatchToProps)(withTags(Component));
+export default (Component: React.ComponentType<any>) => connect(mapStateToProps, mapDispatchToProps)(withTags(Component));

@@ -1,33 +1,48 @@
-import React, {PureComponent, useEffect, useMemo} from 'react';
-import PropTypes from 'prop-types';
+import React, {PureComponent} from 'react';
 import {getCommetsStatus, getFilmComments} from '../../../store/reducers/comments/comment-selectors';
 import {connect} from 'react-redux';
-import { triggerLoadingComments } from '../../../store/actions/comments-actions';
+import {triggerLoadingComments} from '../../../store/actions/comments-actions';
+import {IFilm, IReview} from '../../../models/models';
+import { RootState } from '../../../store/reducers/root-reducer';
+import { AppDispatch } from '../../..';
 
-const getDateTime = (time) => {
+const getDateTime = (time: string) => {
   const date = new Date(time);
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 };
 
-class MovieReview extends PureComponent {
-  constructor(props) {
-    super();
+type Props = {
+  film?: IFilm,
+  loadComments?: (film: IFilm) => void,
+  comments?: IReview[] | null;
+  selectedID?: number;
+  activeTab?: string;
+  label: string;
+  loadingComments?: ReturnType<typeof getCommetsStatus>,
+};
+
+type State = {};
+
+class MovieReview extends PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props);
   }
 
   componentDidMount() {
     this.props.loadComments(this.props.film);
   }
-  omponentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
+
+  componentDidUpdate(prevProps: Props) {
     if (this.props.comments !== prevProps.comments) {
       this.props.loadComments(this.props.film);
     }
   }
+
   render() {
-    const {label, comments, activeTab, film, loadComments, selectedID} = this.props;
-    const cheched = label === activeTab;
-    let filmOnePart = [];
-    let filmTwoPart = [];
+    const {label, comments, activeTab} = this.props;
+    const checked = label === activeTab;
+    let filmOnePart: IReview[] = [];
+    let filmTwoPart: IReview[] = [];
     if (comments) {
       const halfReview = Math.ceil(comments.length / 2);
       filmOnePart = comments.slice(0, halfReview);
@@ -35,7 +50,7 @@ class MovieReview extends PureComponent {
     }
     return (
       <React.Fragment>
-        {comments && cheched && (
+        {comments && checked && (
           <div className="movie-card__reviews movie-card__row">
             <div className="movie-card__reviews-col">
               {filmOnePart.map((review) => {
@@ -79,18 +94,14 @@ class MovieReview extends PureComponent {
     );
   }
 }
-MovieReview.propTypes = {
-  label: PropTypes.string,
-  activeTab: PropTypes.string,
-};
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   comments: getFilmComments(state),
   loadingComments: getCommetsStatus(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  loadComments(film) {
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  loadComments(film: IFilm) {
     dispatch(triggerLoadingComments(film.id));
   },
 });

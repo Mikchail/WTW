@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {API} from '../../..';
-import { IComment, IReview } from '../../../models/models';
+import { IReview } from '../../../models/models';
 import {
   setloadingComments,
   loadedComments,

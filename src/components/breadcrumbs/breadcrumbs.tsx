@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import {Link} from 'react-router-dom';
 
-const Breadcrumbs = (props) => {
+type Props = {
+  id: number;
+}
+
+const Breadcrumbs: FC<Props> = (props) => {
   const { id } = props;
   return (
     <nav className="breadcrumbs">

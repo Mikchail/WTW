@@ -20,12 +20,9 @@ type Props  = {
   onChangeComment: (e: any) => void;
   onChangeReview: (e: any) => void;
   onSubmitReview: (e: any) => void;
-  sendingComment: {
-    sendingIsDone: boolean;
-    commentIsSinding: boolean;
-    sendingIsError: boolean;
-  },
+  sendingComment: ReturnType<typeof sendCommentStatus>;
 }
+
 
 const AddReview: FC<Props> = (props) => {
   const {
@@ -48,14 +45,14 @@ const AddReview: FC<Props> = (props) => {
     if (sendingComment.sendingIsDone) {
       history.goBack();
     }
-    if (sendingComment.commentIsSinding && !sendingComment.sendingIsError) {
+    if (sendingComment.commentsIsSending && !sendingComment.sendingIsError) {
       return ``;
-    } else if (sendingComment.commentIsSinding && sendingComment.sendingIsError) {
+    } else if (sendingComment.commentsIsSending && sendingComment.sendingIsError) {
       return `Sending review can't be done ,Something went wrong`;
     }
     return null;
   };
-  const isBlocked = sendingComment.commentIsSinding && !sendingComment.sendingIsError ? true : false;
+  const isBlocked = sendingComment.commentsIsSending && !sendingComment.sendingIsError ? true : false;
   return (
     <section style={{backgroundColor: selectedFilm.background_color}} className="movie-card movie-card--full">
       <div className="movie-card__header">
@@ -128,4 +125,4 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 
-export default connect(mapStateToProps)(AddReview);
+export default connect(mapStateToProps, {})(AddReview);

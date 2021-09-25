@@ -1,12 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
+import { IFilm } from '../../../models/models';
 
-const MovieOverview = (props) => {
-  const {label, activeTab,film} = props;
-  const cheched = label === activeTab;
+type Props = {
+  label: string,
+  activeTab?: string,
+  film?: IFilm
+};
+
+const MovieOverview: FC<Props> = (props) => {
+  const {label, activeTab, film} = props;
+  const checked = label === activeTab;
   return (
     <React.Fragment>
-      {cheched && (
+      {checked && film && (
         <React.Fragment>
           <div className="movie-rating">
             <div className="movie-rating__score">{film.rating}</div>
@@ -17,27 +23,22 @@ const MovieOverview = (props) => {
           </div>
 
           <div className="movie-card__text">
-            <p>
-              {film.description}
-            </p>
+            <p>{film.description}</p>
 
             <p className="movie-card__director">
               <strong>Director: {film.director}</strong>
             </p>
 
             <p className="movie-card__starring">
-            <strong>Starring: {film.starring.map((it,index,array) => it + `${index === array.length - 1 ? `` : `, `}`)}</strong>
+              <strong>
+                Starring: {film.starring.map((it, index, array) => it + `${index === array.length - 1 ? `` : `, `}`)}
+              </strong>
             </p>
           </div>
         </React.Fragment>
       )}
     </React.Fragment>
   );
-};
-
-MovieOverview.propTypes = {
-  label: PropTypes.string,
-  activeTab: PropTypes.string,
 };
 
 export default MovieOverview;

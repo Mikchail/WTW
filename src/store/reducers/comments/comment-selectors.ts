@@ -1,8 +1,9 @@
+import { IReview } from '../../../models/models';
 import NameSpace from '../../name-space';
 import { RootState } from '../root-reducer';
 
 
-export const getFilmComments = (state: RootState) => state[NameSpace.COMMENTS].comments;
+export const getFilmComments = (state: RootState): IReview[] | null => state[NameSpace.COMMENTS].comments;
 
 export const sendCommentStatus = (state: RootState) => ({
   commentsIsSending: state[NameSpace.COMMENTS].sendingComment,

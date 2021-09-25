@@ -57,3 +57,5 @@ export type TypeFavoriteFilmsActions =
   | ReturnType<typeof setLoadingFavoriteFilm>
   | ReturnType<typeof loadedFavoriteFilms>
   | ReturnType<typeof setLoadingErrorFavoriteFilms>
+  | ReturnType<typeof triggerLoadFavoriteFilms>
+  | ReturnType<typeof triggerSendFavoriteFilms>

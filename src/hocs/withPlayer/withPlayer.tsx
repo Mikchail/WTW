@@ -67,11 +67,13 @@ const withPlayerControl = <BaseProps extends Props>(Component: React.ComponentTy
 
     componentWillUnmount() {
       const video = this.videoRef.current;
-      video.src = ``;
-      video.onplay = null;
-      video.onloadedmetadata = null;
-      video.ontimeupdate = null;
-      video.controls = null;
+      if(video) {
+        video.src = ``;
+        video.onplay = null;
+        video.onloadedmetadata = null;
+        video.ontimeupdate = null;
+        video.controls = false;
+      }
     }
 
     _handleIsPlayingChange() {
@@ -82,8 +84,10 @@ const withPlayerControl = <BaseProps extends Props>(Component: React.ComponentTy
     }
     _handleSetFullScreen() {
       const video = this.videoRef.current;
-      video.requestFullscreen();
-      video.controls = true;
+      if(video) {
+        video.requestFullscreen();
+        video.controls = true;
+      }
     }
     _leftTime() {
       const {currentTime, duration} = this.state;

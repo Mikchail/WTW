@@ -11,7 +11,7 @@ import { AppDispatch } from '../..';
 type Props = {
     selectedFilm: IFilm;
     iSLoading: boolean;
-    handleSubmitReview: (id: number, { comment, rating }: IComment) => void;
+    handleSubmitReview: (id: number, review: IComment) => void;
     loadFilms: () => void;
     sendingComment: {
       sendingIsDone: boolean;
@@ -27,8 +27,8 @@ type State = {
 
 
 const withComment = <BaseProps extends Props>(Component: React.ComponentType<BaseProps>) => {
-  return class WithComment extends PureComponent<BaseProps & Props,State> {
-    private ratingArray: number[];
+  class WithComment extends PureComponent<BaseProps & Props,State> {
+    protected ratingArray: number[] = [];
 
     constructor(props: BaseProps & Props) {
       super(props);
@@ -58,10 +58,13 @@ const withComment = <BaseProps extends Props>(Component: React.ComponentType<Bas
       });
     }
 
-    _handleSubmitReview(event: React.ChangeEvent<HTMLButtonElement>) {
+    _handleSubmitReview(event: React.ChangeEvent<HTMLButtonElement>): void {
       const {selectedFilm, handleSubmitReview} = this.props;
       const {comment, rating} = this.state;
       event.preventDefault();
+      if(!comment || !rating){
+        throw new Error("need to fill")
+      }
       handleSubmitReview(selectedFilm.id, {
         rating,
         comment,
@@ -92,6 +95,8 @@ const withComment = <BaseProps extends Props>(Component: React.ComponentType<Bas
       );
     }
   }
+
+  return WithComment;
 };
 
 const mapStateToProps = (state: RootState, props: {selectedID: number}) => ({
@@ -100,8 +105,8 @@ const mapStateToProps = (state: RootState, props: {selectedID: number}) => ({
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  handleSubmitReview(filmID: number, comment: IComment) {
-    dispatch(triggerSendComment({comment, filmID}));
+  handleSubmitReview(filmID: number, review: IComment) {
+    dispatch(triggerSendComment({review, filmID}));
   },
   loadFilms() {
     dispatch(triggerLoadFilms());

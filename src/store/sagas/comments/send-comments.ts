@@ -1,15 +1,18 @@
+import { AxiosResponse } from 'axios';
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {API} from '../../..';
+import { IReview } from '../../../models/models';
 import {
   loadedComments,
   setSendCommentDone,
   TRIGGER_SEND_COMMENT,
   setSendingComment,
   setSendCommentError,
+  triggerSendComment,
 } from '../../actions/comments-actions';
 import {EntryPoints} from '../../consts';
 
-function* sendComment(action) {
+function* sendComment(action: ReturnType<typeof triggerSendComment>) {
   const {review, filmID} = action.payload;
   const body = {
     rating: review.rating,
@@ -17,7 +20,7 @@ function* sendComment(action) {
   };
   try {
     yield put(setSendingComment(true));
-    const responce = yield call(API.post, `${EntryPoints.COMMENTS}${filmID}`, body);
+    const responce: AxiosResponse<IReview[]> = yield call(API.post, `${EntryPoints.COMMENTS}${filmID}`, body);
     yield put(loadedComments(responce.data));
     yield put(setSendingComment(false));
     yield put(setSendCommentError(false));

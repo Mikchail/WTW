@@ -10,12 +10,12 @@ export const LOAD_COMMENTS = `LOAD_COMMENTS` as const ;
 export const TRIGGER_SEND_COMMENT = `TRIGGER_SEND_COMMENT` as const ;
 export const TRIGGER_LOADING_COMMENT = `TRIGGER_LOADING_COMMENT` as const ;
 
-export const triggerSendComment = (payload: {comment: IComment, filmID: number}) => ({
+export const triggerSendComment = (payload: {review: IComment, filmID: number}) => ({
   type: TRIGGER_SEND_COMMENT,
   payload
 });
 
-export const triggerLoadingComments = (payload: {filmID: number}) => ({
+export const triggerLoadingComments = (payload: number) => ({
   type: TRIGGER_LOADING_COMMENT,
   payload
 });
@@ -61,3 +61,4 @@ export type TypeCommentActions =
   | ReturnType<typeof setSendCommentDone>
   | ReturnType<typeof setSendingComment>
   | ReturnType<typeof triggerSendComment>
+  | ReturnType<typeof triggerLoadingComments>

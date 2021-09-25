@@ -6,9 +6,9 @@ export const getRandomElement = (array: any[]) => {
   return array[getRandomNumber(0, array.length - 1)];
 };
 
-export const extend = (a: any, b: any) => {
-  return Object.assign({}, a, b);
-};
+export function extend<T, U>(a: T, b: U): T & U {
+	return Object.assign({}, a, b);
+}
 
 export const getCities = (array: any[]) => {
   const cities = array.map((item) => item.city);

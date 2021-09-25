@@ -1,9 +1,10 @@
+import { IFilm } from '../../../models/models';
 import {extend} from '../../../utils';
 import {SET_LOADING_PROMO_FILM, LOADED_PROMO_FILMS, SET_ERROR_LOAD_PROMO_FILMS, TypePromoFilmActions} from '../../actions/promo-film-actions';
 
 const initialState = {
   isLoadingPromo: true,
-  filmPromo: false,
+  filmPromo: null as IFilm | null,
   isErrorPromo: false,
 };
 

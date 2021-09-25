@@ -1,4 +1,4 @@
-import { IComment } from '../../../models/models';
+import { IReview } from '../../../models/models';
 import {extend} from '../../../utils';
 import {
   SET_LOADING_COMMENTS,
@@ -10,7 +10,7 @@ import {
 } from '../../actions/comments-actions';
 
 const initialState = {
-  comments: null as IComment | null,
+  comments: null as IReview[] | null,
   loadingComments: true,
   loadCommentsError: false,
   sendingComment: false,

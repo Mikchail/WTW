@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import Loading from '../loading/loading';
@@ -9,10 +8,28 @@ import Content from '../content/content';
 import {getFilmPromo, getLoadingFilmPromo} from '../../store/reducers/promo-film/promo-film-selectors';
 import withCountFilms from '../../hocs/with-count-films/with-count-films';
 import {triggerLoadPromoFilm} from '../../store/actions/promo-film-actions';
+import { IFilm } from '../../models/models';
+import { AppDispatch } from '../..';
+import { RootState } from '../../store/reducers/root-reducer';
 
 const ContentWithCount = withCountFilms(Content);
 
-const Main = (props) => {
+type Props = {
+  randomFilm: IFilm;
+  history: any;
+  handlerSorted: (activeTag: string) => void;
+  handleSelectedFilms: (film: IFilm) => void;
+  tags: string[];
+  activeTag: string;
+  films: IFilm[];
+  isLoading: boolean;
+  filmPromo: IFilm | null;
+  loadFilmPromo: () => void;
+  isLoadingFilmPromo: boolean;
+}
+
+
+const Main: FC<Props> = (props) => {
   const {
     history,
     handlerSorted,
@@ -30,16 +47,16 @@ const Main = (props) => {
     loadFilmPromo();
   }, []);
 
-  if (!isLoading || isLoadingFilmPromo) {
+  if (isLoading || isLoadingFilmPromo || !filmPromo) {
     return (
       <div style={{background: 'black', height: '100vh'}}>
         <Loading />
       </div>
     );
   }
-  const {src, id, title, genre, year, background_image, poster_image} = filmPromo;
+  
+  const {id, title, genre, background_image, poster_image} = filmPromo;
 
-  // const years = year.getFullYear();
   const isInMyLyst = !id ? (
     <React.Fragment>
       <svg viewBox="0 0 18 14" width="18" height="14">
@@ -107,27 +124,13 @@ const Main = (props) => {
   );
 };
 
-Main.propTypes = {
-  randomFilm: PropTypes.shape({
-    src: PropTypes.string,
-    title: PropTypes.string,
-    genre: PropTypes.string,
-    year: PropTypes.number,
-    id: PropTypes.number,
-  }),
-  history: PropTypes.object,
-  handlerSorted: PropTypes.func,
-  handleSelectedFilms: PropTypes.func,
-  tags: PropTypes.array,
-  activeTag: PropTypes.string,
-  films: PropTypes.array,
-};
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   filmPromo: getFilmPromo(state),
   isLoadingFilmPromo: getLoadingFilmPromo(state),
 });
-const mapDispatchToProps = (dispatch) => ({
+
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
   loadFilmPromo: () => {
     dispatch(triggerLoadPromoFilm());
   },

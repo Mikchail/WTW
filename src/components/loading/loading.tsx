@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './style.css';
 
-const Loading = () => {
+type Props = {
+
+}
+
+const Loading: FC<Props> = () => {
   return (
     <div className="loader">
       <div className="l_main">
@@ -30,4 +34,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default Loading; 

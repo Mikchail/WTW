@@ -1,7 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 
-const MovieDetails = (props) => {
+type Props = {
+  label: string,
+  activeTab?: string,
+}
+
+const MovieDetails: FC<Props> = (props) => {
   const {label, activeTab} = props;
   const checked = label === activeTab;
   return (
@@ -50,11 +54,6 @@ const MovieDetails = (props) => {
       )}
     </React.Fragment>
   );
-};
-
-MovieDetails.propTypes = {
-  label: PropTypes.string,
-  activeTab: PropTypes.string,
 };
 
 export default MovieDetails;
