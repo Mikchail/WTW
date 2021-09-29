@@ -1,17 +1,33 @@
+import { IFilm } from 'models/models';
 import React, {PureComponent} from 'react';
+import {Subtract} from 'utility-types';
 const COUNT_OF_FILMS = 4;
 
 
-type Props ={
+type Props = {
+  history: any,
+  handlerSorted: (activeTag: string) => void,
+  tags: string[],
+  activeTag: string,
+  films: IFilm[]
+  isLoading: boolean,
 }
 
 type State = {
   numberOfmovie: number,
 }
 
-const withCountFilms = <BaseProps extends Props>(Component: React.ComponentType<BaseProps>) => {
-  class WithCountFilms extends PureComponent<BaseProps & Props,State> {
-    constructor(props: BaseProps & Props) {
+type InjectedProps = {
+  numberOfmovie: number,
+  addMovies: () => void,
+  resetMovies: () => void,
+}
+
+const withCountFilms = (Component: React.ComponentType<Props & InjectedProps>) => {
+  type P = React.ComponentProps<typeof Component>;
+  type T = Props & Subtract<P, InjectedProps>;
+  class WithCountFilms extends PureComponent<T,State> {
+    constructor(props: Props) {
       super(props);
       this.state = {
         numberOfmovie: COUNT_OF_FILMS,
@@ -31,7 +47,7 @@ const withCountFilms = <BaseProps extends Props>(Component: React.ComponentType<
     render() {
       return (
         <Component
-          {...this.props as BaseProps}
+          {...this.props}
           numberOfmovie={this.state.numberOfmovie}
           addMovies={this._handlerCountFilmAdd}
           resetMovies={this._handlerCountFilmReset}

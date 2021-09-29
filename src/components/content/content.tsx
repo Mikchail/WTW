@@ -13,9 +13,9 @@ type Props = {
   handlerSorted: (activeTag: string) => void,
   history: any,
   isLoading: boolean,
-  numberOfmovie?: number,
-  addMovies?: () => void,
-  resetMovies?: () => void,
+  numberOfmovie: number,
+  addMovies: () => void,
+  resetMovies: () => void,
 };
 
 const Content: FC<Props> = (props) => {
@@ -25,9 +25,9 @@ const Content: FC<Props> = (props) => {
     activeTag,
     handlerSorted,
     isLoading,
-    numberOfmovie = 4,
-    addMovies = () => {},
-    resetMovies = () => {},
+    numberOfmovie,
+    addMovies,
+    resetMovies,
   } = props;
   const showFilms = films.slice(0, numberOfmovie);
   return (
