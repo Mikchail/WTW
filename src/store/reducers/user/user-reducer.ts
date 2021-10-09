@@ -1,9 +1,11 @@
+import { IUser } from '../../../models/models';
 import {extend} from '../../../utils';
 import {
   ERROR_AUTHORIZATION,
   REQUIRED_AUTHORIZATION,
   SET_PROGRESS_STATUS,
   SET_USER_DATA,
+  TypeUserActions,
 } from '../../actions/user-actions';
 
 export const AuthorizationStatus = {
@@ -12,14 +14,16 @@ export const AuthorizationStatus = {
 };
 
 const initialState = {
-  user: false,
+  user: null as IUser | null,
   isLogin: false,
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   authorizationError: false,
   authorizationInProgress: false,
 };
 
-export function reducer(state = initialState, action) {
+type InitialState = typeof initialState;
+
+export const reducer = (state: InitialState = initialState, action: TypeUserActions): InitialState => {
   switch (action.type) {
     case SET_USER_DATA:
       return extend(state, {

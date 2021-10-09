@@ -3,12 +3,14 @@ import { API } from '../../..';
 import { adaptiveFilms } from '../../../adapter';
 import { EntryPoints } from '../../consts';
 import { loadedPromo, setErrorLoadPromo, setLoadingPromo, TRIGGER_LOAD_PROMO_FILMS } from '../../actions/promo-film-actions';
+import { AxiosResponse } from 'axios';
+import { IFilm } from '../../../models/models';
 
 function* fetchPromoFilm() {
   try {
     yield put(setLoadingPromo(true));
-    const films = yield call(API.get, EntryPoints.PROMO);
-    yield put(loadedPromo(films.data.map((film) => adaptiveFilms(film))));
+    const film: AxiosResponse<IFilm> = yield call(API.get, EntryPoints.PROMO);
+    yield put(loadedPromo(adaptiveFilms(film.data)));
     yield put(setLoadingPromo(false));
     yield put(setErrorLoadPromo(false));
   } catch (e) {

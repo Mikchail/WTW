@@ -1,25 +1,23 @@
-import React from 'react';
+import React, {FC} from 'react';
 import Header from '../header/header';
-import {connect} from 'react-redux';
-import {sendCommentStatus} from '../../store/reducers/comments/comment-selectors';
+import {useComment} from '../../hooks/useComment';
+import history from '../../history';
+import Loading from '../loading/loading';
+
 const ReviewLength = {
   MIN: 50,
   MAX: 400,
 };
 
-const AddReview = (props) => {
-  const {
-    selectedID,
-    selectedFilm,
-    Breadcrumbs,
-    comment,
-    history,
-    rating,
-    onChangeComment,
-    onChangeReview,
-    onSubmitReview,
-    sendingComment,
-  } = props;
+type Props = {
+  selectedID: number,
+};
+
+const AddReview: FC<Props> = ({selectedID}) => {
+  const {isLoading, selectedFilm, comment, rating, onChangeComment, onChangeReview, onSubmitReview, sendingComment} =
+    useComment({
+      selectedID,
+    });
 
   const ratingArray = [1, 2, 3, 4, 5];
 
@@ -28,14 +26,20 @@ const AddReview = (props) => {
     if (sendingComment.sendingIsDone) {
       history.goBack();
     }
-    if (sendingComment.commentIsSinding && !sendingComment.sendingIsError) {
+    if (sendingComment.commentsIsSending && !sendingComment.sendingIsError) {
       return ``;
-    } else if (sendingComment.commentIsSinding && sendingComment.sendingIsError) {
+    } else if (sendingComment.commentsIsSending && sendingComment.sendingIsError) {
       return `Sending review can't be done ,Something went wrong`;
     }
     return null;
   };
-  const isBlocked = sendingComment.commentIsSinding && !sendingComment.sendingIsError ? true : false;
+  const isBlocked = sendingComment.commentsIsSending && !sendingComment.sendingIsError ? true : false;
+  if (!selectedFilm) {
+    return null;
+  }
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <section style={{backgroundColor: selectedFilm.background_color}} className="movie-card movie-card--full">
       <div className="movie-card__header">
@@ -45,7 +49,7 @@ const AddReview = (props) => {
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <Header Breadcrumbs={Breadcrumbs} id={+selectedID} />
+        <Header id={+selectedID} />
 
         <div className="movie-card__poster movie-card__poster--small">
           <img src={`${selectedFilm.poster_image}`} alt="The Grand Budapest Hotel poster" width="218" height="327" />
@@ -53,7 +57,7 @@ const AddReview = (props) => {
       </div>
 
       <div className="add-review">
-        <form action="#" disabled={isBlocked} className="add-review__form" onSubmit={onSubmitReview}>
+        <form action="#" className="add-review__form" onSubmit={onSubmitReview}>
           <div className="rating">
             <div key={rating} className="rating__stars">
               {ratingArray.map((item) => {
@@ -90,7 +94,7 @@ const AddReview = (props) => {
               placeholder="Review text"
             ></textarea>
             <div className="add-review__submit">
-              <button disabled={isValidReview} className="add-review__btn" type="submit">
+              <button disabled={isValidReview || isBlocked} className="add-review__btn" type="submit">
                 Post
               </button>
             </div>
@@ -102,10 +106,4 @@ const AddReview = (props) => {
   );
 };
 
-
-const mapStateToProps = (state) => ({
-  sendingComment: sendCommentStatus(state),
-});
-
-
-export default connect(mapStateToProps)(AddReview);
+export default AddReview;

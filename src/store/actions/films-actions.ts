@@ -1,27 +1,36 @@
-export const GET_FILMS = `GET_FILMS`;
-export const TRIGGER_LOAD_FILMS = `TRIGGER_LOAD_FILMS`;
-export const LOADED_FILMS = `LOADED_FILMS`;
-export const SET_LOADING_FILMS = `SET_LOADING_FILMS`;
-export const SET_ERROR_LOADED_FILMS = `SET_ERROR_LOADED_FILMS`;
+import { IFilm } from "../../models/models";
 
-export const setLoadingFilm = (payload) => ({
-  type: IS_LOAD_FILMS,
-  payload,
-});
+export const GET_FILMS = `GET_FILMS` as const;
+export const TRIGGER_LOAD_FILMS = `TRIGGER_LOAD_FILMS` as const;
+export const LOADED_FILMS = `LOADED_FILMS` as const;
+export const SET_LOADING_FILMS = `SET_LOADING_FILMS` as const;
+export const SET_ERROR_LOADED_FILMS = `SET_ERROR_LOADED_FILMS` as const;
 
-export const getFilms = () => ({
-  type: GET_FILMS,
-});
+
+
 export const triggerLoadFilms = () => ({
   type: TRIGGER_LOAD_FILMS,
 });
 
-export const loadedFilms = (films) => ({
+export const setLoadingFilm = (payload: boolean) => ({
+  type: SET_LOADING_FILMS,
+  payload,
+});
+
+export const loadedFilms = (films: IFilm[]) => ({
   type: LOADED_FILMS,
   payload: films,
 });
 
-export const setErrorLoadFilm = (payload) => ({
+export const setErrorLoadFilm = (payload: boolean) => ({
   type: SET_ERROR_LOADED_FILMS,
   payload,
 });
+
+
+
+export type TypeFilmsActions =
+  | ReturnType<typeof setLoadingFilm>
+  | ReturnType<typeof loadedFilms> 
+  | ReturnType<typeof setErrorLoadFilm>
+  | ReturnType<typeof triggerLoadFilms>

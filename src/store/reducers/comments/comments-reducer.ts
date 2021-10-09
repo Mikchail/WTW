@@ -1,3 +1,4 @@
+import { IReview } from '../../../models/models';
 import {extend} from '../../../utils';
 import {
   SET_LOADING_COMMENTS,
@@ -5,15 +6,21 @@ import {
   SET_ERROR_LOAD_COMMENTS,
   SEND_COMMENT_DONE,
   SEND_COMMENT_ERROR,
+  TypeCommentActions,
 } from '../../actions/comments-actions';
 
 const initialState = {
-  comments: false,
+  comments: null as IReview[] | null,
   loadingComments: true,
   loadCommentsError: false,
+  sendingComment: false,
+  sendCommentDone: false,
+  sendCommentError: false,
 };
 
-export const reducer = (state = initialState, action) => {
+type InitialState = typeof initialState;
+
+export const reducer = (state: InitialState = initialState, action: TypeCommentActions): InitialState => {
   switch (action.type) {
     case SET_LOADING_COMMENTS:
       return extend(state, {

@@ -1,17 +1,21 @@
+import { IFilm } from '../../../models/models';
 import {extend} from '../../../utils';
 import {
   SET_LOADING_FAVORITE_FILM,
   LOAD_FAVORITE_FILMS,
   LOAD_FAVORITE_FILMS_ERROR,
+  TypeFavoriteFilmsActions,
 } from '../../actions/favorite-films-actions';
 
 const initialState = {
   isLoadingFavoriteFilms: true,
-  favoriteFilms: [],
+  favoriteFilms: [] as IFilm[],
   isFavoriteFilmsError: false,
 };
 
-export const reducer = (state = initialState, action) => {
+type InitialState = typeof initialState;
+
+export const reducer = (state: InitialState = initialState, action: TypeFavoriteFilmsActions): InitialState => {
   switch (action.type) {
     case SET_LOADING_FAVORITE_FILM:
       return extend(state, {isLoadingFavoriteFilms: action.payload});

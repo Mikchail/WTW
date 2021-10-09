@@ -1,18 +1,25 @@
-import { extend } from "../../../utils";
-import { GET_FILMS, LOADED_FILMS } from "../../actions/films-actions";
+import { IFilm } from '../../../models/models';
+import {extend} from '../../../utils';
+import {LOADED_FILMS, SET_ERROR_LOADED_FILMS, SET_LOADING_FILMS, TypeFilmsActions} from '../../actions/films-actions';
 
 const initialState = {
-  films: [],
+  films: [] as IFilm[],
   isLoading: false,
   isError: false,
-}
+};
 
-export const reducer = (state = initialState, action) => {
+type InitialState = typeof initialState;
+
+export const reducer = (state: InitialState = initialState, action: TypeFilmsActions): InitialState => {
   switch (action.type) {
-    case GET_FILMS:
-      return state;
     case LOADED_FILMS:
-      return extend(state, {films: action.payload, isLoading: true});
+      return extend(state, {films: action.payload});
+    case SET_LOADING_FILMS: {
+      return extend(state, {isLoading: action.payload});
+    }
+    case SET_ERROR_LOADED_FILMS: {
+      return extend(state, {isError: action.payload});
+    }
     default:
       return state;
   }

@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {deleteFilm, selectedFilm} from '../../../store/actions/shown-film-actions';
 import {getUser} from '../../../store/reducers/user/user-selector';
 import {getSimilarFilms, getFilmById} from '../../../store/reducers/films/films-selectors';
 import {getSelectedFilms, hasSelectedFilms} from '../../../store/reducers/shown-films/shown-films-selector';
@@ -15,19 +13,25 @@ import MovieOverview from './movie-overview';
 import Footer from '../../footer/footer';
 import MyListButton from '../../my-list-button/my-list-button';
 import CatalogList from '../../catalog-list/catalog-list';
-import { IFilm } from '../../../models/models';
+import { IFilm, IUser } from '../../../models/models';
+import { RootState } from '../../../store/reducers/root-reducer';
+
 
 type Props = {
-  film: IFilm,
+  film?: IFilm,
   history: any,
   selectedID: number,
-  isSelect: boolean,
-  similarFilms: IFilm,
+  isSelect?: boolean,
+  similarFilms?: ReturnType<typeof getSimilarFilms>,
+  selectedFilms?: ReturnType<typeof getSelectedFilms>,
+  user?: IUser | null;
 };
 
 const MoviePage: FC<Props> = (props) => {
-  const {film, history, selectedID, isSelect, similarFilms} = props;
-
+  const {film, history, selectedID, similarFilms = []} = props;
+  if(!film) {
+    return null;
+  }
   return (
     <>
       <section className="movie-card movie-card--full" style={{background: `${film.background_color}`}}>
@@ -81,7 +85,7 @@ const MoviePage: FC<Props> = (props) => {
               <img src={film.poster_image} alt={film.title} width="218" height="327" />
             </div>
 
-            <MovieTabBar film={film}>
+            <MovieTabBar film={film!}>
               <MovieOverview label="Overview" />
               <MovieDetails label="Details" />
               <MovieReview label="Review" />
@@ -92,7 +96,7 @@ const MoviePage: FC<Props> = (props) => {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <CatalogList history={history} films={similarFilms} />
+          <CatalogList films={similarFilms} />
         </section>
 
         <Footer />
@@ -101,7 +105,7 @@ const MoviePage: FC<Props> = (props) => {
   );
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state: RootState, props: {selectedID: number}) => ({
   user: getUser(state),
   selectedFilms: getSelectedFilms(state),
   isSelect: hasSelectedFilms(state),
@@ -109,13 +113,13 @@ const mapStateToProps = (state, props) => ({
   similarFilms: getSimilarFilms(state, props.selectedID),
 });
 
-const mapDispatchToProps = (dispaptch) => ({
-  addFilm: (film) => {
-    dispaptch(selectedFilm(film));
-  },
-  removeFilm: (film) => {
-    dispaptch(deleteFilm(film));
-  },
-});
+// const mapDispatchToProps = (dispaptch: AppDispatch) => ({
+//   addFilm: (film: IFilm) => {
+//     dispaptch(selectedFilm(film));
+//   },
+//   removeFilm: (film: IFilm) => {
+//     dispaptch(deleteFilm(film));
+//   },
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MoviePage);
+export default connect(mapStateToProps, null)(MoviePage);

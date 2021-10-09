@@ -1,14 +1,20 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
 import SmallMovieCard from '../small-movie-card/small-movie-card';
 import withSmallPlayer from '../../hocs/with-small-player/with-small-player';
-import history from '../../history'
-import { chooseFilm } from '../../store/actions/shown-film-actions';
+import history from '../../history';
+import {chooseFilm} from '../../store/actions/shown-film-actions';
+import {IFilm} from '../../models/models';
+import { AppDispatch } from '../..';
+
 const SmallMovieCardWrapped = withSmallPlayer(SmallMovieCard);
 
-const CatalogList = (props) => {
-  const {films, handleSelectedFilms} = props;
+type Props = {
+  films: IFilm[],
+};
+
+const CatalogList: FC<Props> = (props) => {
+  const {films} = props;
   return (
     <div className="catalog__movies-list">
       {films &&
@@ -18,7 +24,6 @@ const CatalogList = (props) => {
               history={history}
               key={film.title}
               film={film}
-              handleSelectedFilms={handleSelectedFilms}
             />
           );
         })}
@@ -26,15 +31,8 @@ const CatalogList = (props) => {
   );
 };
 
-CatalogList.propTypes = {
-  history: PropTypes.object,
-  films: PropTypes.array,
-  handlerFilmMouseMove: PropTypes.func,
-  handleSelectedFilms: PropTypes.func,
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  handleSelectedFilms: (film) => {
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  handleSelectedFilms: (film: IFilm) => {
     dispatch(chooseFilm(film));
   },
 });
