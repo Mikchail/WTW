@@ -1,17 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {composeWithDevTools} from 'redux-devtools-extension';
-import {createStore, applyMiddleware} from 'redux';
-import {Provider} from 'react-redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import {redirect} from './store/middlewares/redirect';
-import {createAPI} from './api';
+import { redirect } from './store/middlewares/redirect';
+import { createAPI } from './api';
 import reducer from './store/reducers/root-reducer';
 import App from './components/app/app';
 import sagas from './store/sagas';
+import { createRoot } from 'react-dom/client';
+
 import { triggerLoadFilms } from './store/actions/films-actions';
 import { triggerCheckAuth } from './store/actions/user-actions';
- 
+
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
 
@@ -34,9 +35,18 @@ sagaMiddleware.run(sagas)
 store.dispatch(triggerCheckAuth());
 store.dispatch(triggerLoadFilms());
 
-ReactDOM.render(
+// ReactDOM.render(
+//   <Provider store={store}>
+//     <App />
+//   </Provider>,
+//   document.querySelector(`#root`)
+// );
+
+
+const container = document.getElementById('root');
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
   <Provider store={store}>
     <App />
-  </Provider>,
-  document.querySelector(`#root`)
+  </Provider>
 );

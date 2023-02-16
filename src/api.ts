@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://5.react.pages.academy/wtw';
+const BASE_URL = 'https://8.react.pages.academy/wtw';
 
 const REQUEST_TIME = 5000;
 
