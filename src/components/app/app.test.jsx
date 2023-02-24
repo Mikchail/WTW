@@ -1,14 +1,16 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import '@testing-library/jest-dom'
+import { render, screen } from "@testing-library/react"
+import userEvent from "@testing-library/user-event";
 import configureStore from 'redux-mock-store';
-import {Provider} from 'react-redux';
-import {films} from '../../../mocks/films';
+import { Provider } from 'react-redux';
+import { films } from '../../../mocks/films';
 import App from './app';
 import NameSpace from '../../store/name-space';
 
 const mockStore = configureStore([]);
 describe(`App`, () => {
-  it(`Render pageMain`, () => {
+  it(`Render pageMain`, async () => {
     const store = mockStore({
       [NameSpace.DATA]: {
         films,
@@ -25,21 +27,31 @@ describe(`App`, () => {
         user: false,
         isLogin: false,
       },
+      [NameSpace.FILMS]: {
+        films: [],
+        isLoading: false,
+      },
+      [NameSpace.SHOWN_FILM]: {
+        currentGenre: ""
+      },
+      [NameSpace.PROMO_FILM]: {
+        filmPromo: null
+      }
     });
 
-    const tree = renderer
-      .create(
-        <Provider store={store}>
-          <App onFilmSelect={() => {}} />
-        </Provider>,
-        {
-          createNodeMock: () => {
-            return {};
-          },
-        }
-      )
-      .toJSON();
+    render(
+      <Provider store={store}>
+        <App onFilmSelect={() => { }} />
+      </Provider>,
+    )
 
-    expect(tree).toMatchSnapshot();
+    const mainPage = screen.getByTestId("main-page")
+    // const signPage = screen.getByTestId("signin-page")
+    const linkSign = screen.getByTestId("link-signin")
+    const elem = screen.getByText(/WTW/i)
+    expect(elem).toBeInTheDocument()
+    userEvent.click(linkSign)
+    const signPage = await screen.findByTestId("signin-page")
+    expect(signPage).toBeInTheDocument()
   });
 });

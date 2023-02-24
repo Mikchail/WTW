@@ -35,14 +35,6 @@ sagaMiddleware.run(sagas)
 store.dispatch(triggerCheckAuth());
 store.dispatch(triggerLoadFilms());
 
-// ReactDOM.render(
-//   <Provider store={store}>
-//     <App />
-//   </Provider>,
-//   document.querySelector(`#root`)
-// );
-
-
 const container = document.getElementById('root');
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 root.render(

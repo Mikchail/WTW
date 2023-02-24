@@ -17,6 +17,7 @@ const CatalogList: FC<Props> = (props) => {
   const {films} = props;
   return (
     <div className="catalog__movies-list">
+       <h1 className="visually-hidden">Films</h1>
       {films &&
         films.map((film) => {
           return (

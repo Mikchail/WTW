@@ -54,7 +54,7 @@ class SignIn extends PureComponent<Props, State> {
     );
 
     return (
-      <div className="user-page">
+      <div className="user-page" data-testid="signin-page">
         <Header className={`user-page__head`} />
 
         <div className="sign-in user-page__content">

@@ -121,7 +121,7 @@ const Main: FC<Props> = (props) => {
 
   return (
     <React.Fragment>
-      <section className="movie-card">
+      <section data-testid="main-page" className="movie-card">
         {renderTitlePromo()}
 
         <h1 className="visually-hidden">WTW</h1>

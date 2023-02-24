@@ -32,6 +32,7 @@ class SmallMovieCard extends PureComponent<Props, State> {
     const {film, isPlaying, onIsPlayingChange, handleSelectedFilms, history, muted} = this.props;
     return (
       <article
+        data-testid="film-item"
         onMouseEnter={() => {
           this.timeout = global.setTimeout(() => {
             onIsPlayingChange && onIsPlayingChange(true);

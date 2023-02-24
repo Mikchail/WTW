@@ -1,19 +1,19 @@
 import React, { FC } from 'react';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {getUser} from '../../store/reducers/user/user-selector';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getUser } from '../../store/reducers/user/user-selector';
 import { RootState } from '../../store/reducers/root-reducer';
 import { IUser } from '../../models/models';
 
 type Props = {
-  className?: string; 
+  className?: string;
   Breadcrumbs?: any;
   id?: number;
   user: IUser | null;
 }
 
 const Header: FC<Props> = (props) => {
-  const {className, Breadcrumbs, id} = props;
+  const { className, Breadcrumbs, id } = props;
   return (
     <header className={`page-header movie-card__head ${className || ``}`}>
       <div className="logo">
@@ -33,7 +33,10 @@ const Header: FC<Props> = (props) => {
           </div>
         )}
         {!props.user && (
-          <Link to="/singin" className="user-block__link">
+          <Link
+            data-testid="link-signin"
+            to="/singin"
+            className="user-block__link">
             Sign in
           </Link>
         )}
